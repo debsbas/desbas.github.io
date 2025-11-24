@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WAPED — Cadastrar Imóvel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div class="brand">WAPED Imobiliária</div>
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="imoveis.html">Ver Imóveis</a>
+        <a id="logout" href="#">Sair</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-content">
+    <section class="card">
+      <h2>Cadastrar Novo Imóvel</h2>
+
+      <form id="formCadastro">
+        <div class="row">
+          <label>Título</label>
+          <input id="titulo" required>
+        </div>
+
+        <div class="row">
+          <label>Tipo</label>
+          <select id="tipo">
+            <option>Apartamento</option>
+            <option>Casa</option>
+            <option>Casa em Condomínio</option>
+            <option>Terreno</option>
+            <option>Loteamento Aberto</option>
+            <option>Kitnet</option>
+            <option>Studio</option>
+            <option>Chácara</option>
+            <option>Fazenda</option>
+            <option>Galpão</option>
+            <option>Comercial</option>
+            <option>Cobertura</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <label>Subtipo (opcional)</label>
+          <input id="subtipo" placeholder="ex: Apartamento duplex">
+        </div>
+
+        <div class="row">
+          <label>CEP</label>
+          <input id="cep" placeholder="00000-000">
+          <button type="button" id="buscarCep" class="btn small">Buscar CEP</button>
+        </div>
+
+        <div class="row">
+          <label>Cidade</label>
+          <input id="cidade">
+        </div>
+
+        <div class="row">
+          <label>Estado</label>
+          <input id="estado">
+        </div>
+
+        <div class="row triple">
+          <div>
+            <label>Banheiros</label>
+            <input id="banheiros" type="number" min="0">
+          </div>
+          <div>
+            <label>Garagem</label>
+            <input id="garagem" type="number" min="0">
+          </div>
+          <div>
+            <label>Área m²</label>
+            <input id="area" type="number" min="0" placeholder="m²">
+          </div>
+        </div>
+
+        <div class="row triple">
+          <div>
+            <label>Valor (R$)</label>
+            <input id="valor" type="number" min="0" step="0.01">
+          </div>
+          <div>
+            <label>IPTU/mês (R$)</label>
+            <input id="iptu" type="number" min="0" step="0.01">
+          </div>
+          <div>
+            <label>Ágio (R$)</label>
+            <input id="agio" type="number" min="0" step="0.01">
+          </div>
+        </div>
+
+        <div class="row">
+          <label>Preço por m² (R$)</label>
+          <input id="precoM2" type="number" min="0" step="0.01" placeholder="opcional">
+        </div>
+
+        <div class="row">
+          <label>Descrição</label>
+          <textarea id="descricao" rows="4"></textarea>
+        </div>
+
+        <div class="row">
+          <label>Fotos (múltiplas)</label>
+          <input id="fotos" type="file" accept="image/*" multiple>
+        </div>
+
+        <div class="row">
+          <label>Documentos (PDF)</label>
+          <input id="docs" type="file" accept="application/pdf" multiple>
+        </div>
+
+        <div class="row">
+          <button class="btn primary" type="submit">Salvar Imóvel</button>
+          <button class="btn" type="button" id="limparBtn">Limpar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="storage.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // proteção de acesso
+    if (!sessionStorage.getItem('waped_user')) location.href = 'index.html';
+
+    document.getElementById('logout').addEventListener('click', (e)=>{
+      e.preventDefault(); sessionStorage.removeItem('waped_user'); location.href='index.html';
+    });
+
+    document.getElementById('buscarCep').addEventListener('click', async ()=>{
+      const cep = (document.getElementById('cep').value || '').replace(/\D/g,'');
+      if (!cep) return alert('Informe o CEP');
+      try {
+        const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await res.json();
+        if (data.erro) return alert('CEP não encontrado');
+        document.getElementById('cidade').value = data.localidade || '';
+        document.getElementById('estado').value = data.uf || '';
+      } catch (e) { alert('Erro ao buscar CEP'); }
+    });
+
+    document.getElementById('formCadastro').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      // coletar dados
+      const payload = {
+        titulo: document.getElementById('titulo').value.trim(),
+        tipo: document.getElementById('tipo').value,
+        subtipo: document.getElementById('subtipo').value.trim(),
+        cep: document.getElementById('cep').value.trim(),
+        cidade: document.getElementById('cidade').value.trim(),
+        estado: document.getElementById('estado').value.trim(),
+        banheiros: Number(document.getElementById('banheiros').value) || 0,
+        garagem: Number(document.getElementById('garagem').value) || 0,
+        area: Number(document.getElementById('area').value) || 0,
+        valor: Number(document.getElementById('valor').value) || 0,
+        iptu: Number(document.getElementById('iptu').value) || 0,
+        agio: Number(document.getElementById('agio').value) || 0,
+        precoM2: Number(document.getElementById('precoM2').value) || 0,
+        descricao: document.getElementById('descricao').value.trim(),
+        fotos: [], docs: []
+      };
+
+      // arquivos: para teste local salvamos nomes e data (para demonstração)
+      const fotos = document.getElementById('fotos').files;
+      for (let i=0;i<fotos.length;i++){
+        payload.fotos.push({ name: fotos[i].name, size: fotos[i].size });
+      }
+      const docs = document.getElementById('docs').files;
+      for (let i=0;i<docs.length;i++){
+        payload.docs.push({ name: docs[i].name, size: docs[i].size });
+      }
+
+      // gera id sequencial e salva via StorageLib
+      StorageLib.save(payload);
+      alert('Imóvel salvo com sucesso!');
+      // redireciona para lista
+      location.href = 'imoveis.html';
+    });
+
+    document.getElementById('limparBtn').addEventListener('click', ()=> document.getElementById('formCadastro').reset());
+  </script>
+</body>
+</html>
