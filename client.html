@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Área do Cliente — WAPED</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div class="brand">WAPED Imobiliária</div>
+      <nav><a href="index.html">Home</a><a href="imoveis.html">Imóveis</a></nav>
+    </div>
+  </header>
+
+  <main class="container cards">
+    <h2>Área do Cliente</h2>
+    <p style="color:var(--muted)">Aqui você pode consultar boletos, contratos e solicitar atendimento.</p>
+
+    <div class="grid" style="margin-top:16px">
+      <div class="card">
+        <div class="card-body">
+          <div class="title">Meus Contratos</div>
+          <div class="meta">Acompanhe contratos ativos</div>
+          <div style="margin-top:12px"><a class="btn" href="#">Ver contratos</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="title">Boletos</div>
+          <div class="meta">2 boletos disponíveis</div>
+          <div style="margin-top:12px"><a class="btn" href="#">Emitir 2ª via</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="title">Atendimento</div>
+          <div class="meta">Abra um chamado</div>
+          <div style="margin-top:12px"><a class="btn primary" href="#">Abrir chamado</a></div>
+        </div>
+      </div>
+    </div>
+
+    <section style="margin-top:24px">
+      <h3>Contato Rápido</h3>
+      <p style="color:var(--muted)">WhatsApp: (xx) xxxxx-xxxx • E-mail: contato@waped.com</p>
+    </section>
+  </main>
+
+  <footer class="footer">© <span id="ano2"></span> WAPED Imobiliária</footer>
+  <script>document.getElementById('ano2').innerText = new Date().getFullYear();</script>
+</body>
+</html>
