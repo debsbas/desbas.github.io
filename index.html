@@ -1,48 +1,130 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WAPED Imobiliária - Login</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WAPED Imobiliária</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>WAPED Imobiliária</h1>
-  <button id="btnGoogle">Login com Google</button>
+  <header class="topbar">
+    <div class="container">
+      <div class="brand">WAPED Imobiliária</div>
+      <nav>
+        <a href="#imoveis">Imóveis</a>
+        <a href="#clientes">Área do Cliente</a>
+        <a class="cta" href="#" id="btnCorretor">Sou Corretor</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="banner">
+    <div class="container hero">
+      <div class="hero-left">
+        <h1>Encontre o imóvel ideal com a WAPED</h1>
+        <p>Imóveis selecionados, atendimento humanizado e o melhor da cidade.</p>
+
+        <div class="search-row">
+          <input id="searchQ" placeholder="Cidade, bairro ou código">
+          <select id="searchTipo">
+            <option value="">Todos os tipos</option>
+            <option>Apartamento</option>
+            <option>Casa</option>
+            <option>Terreno</option>
+            <option>Comercial</option>
+          </select>
+          <button class="btn primary" id="btnBuscar">Buscar</button>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <img src="https://picsum.photos/640/420?landscape" alt="banner" style="width:100%;border-radius:12px;box-shadow:var(--card-shadow)">
+      </div>
+    </div>
+  </section>
+
+  <main class="container cards">
+    <h2 id="imoveis">Imóveis em Destaque</h2>
+    <div id="destaque" class="grid"></div>
+
+    <section style="margin-top:24px" id="clientes">
+      <h2>Área do Cliente</h2>
+      <p style="color:var(--muted)">Acompanhe contratos, boletos e atendimento.</p>
+      <button class="btn primary" onclick="location.href='cliente.html'">Acessar Área do Cliente</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © <span id="ano"></span> WAPED Imobiliária • Contato: (xx) xxxx-xxxx
+  </footer>
+
+  <!-- LOGIN CORRETOR (modal) -->
+  <div id="loginModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h3>Login do Corretor</h3>
+      <p style="color:var(--muted)">Entre com sua conta Google</p>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button id="googleSign" class="btn primary" style="flex:1">Entrar com Google</button>
+        <button id="fecharModal" class="btn" style="flex:1">Fechar</button>
+      </div>
+    </div>
+  </div>
 
   <script type="module">
-    // Import Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import { auth, provider } from './firebase.js';
+    import { signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-    // Configuração do Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyAMZ2r15ablc4LTDzNindBJCFipNdg3vcs",
-      authDomain: "waped-imobiliaria.firebaseapp.com",
-      projectId: "waped-imobiliaria",
-      storageBucket: "waped-imobiliaria.firebasestorage.app",
-      messagingSenderId: "99875066360",
-      appId: "1:99875066360:web:e10681e5d9bb8bc977860d"
-    };
+    // populate year
+    document.getElementById('ano').innerText = new Date().getFullYear();
 
-    // Inicializa Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
+    // modal controls
+    document.getElementById('btnCorretor').addEventListener('click', ()=> document.getElementById('loginModal').style.display = 'flex');
+    document.getElementById('fecharModal').addEventListener('click', ()=> document.getElementById('loginModal').style.display = 'none');
 
-    // Botão de login
-    document.getElementById("btnGoogle").addEventListener("click", async () => {
-      try {
+    // Google login
+    document.getElementById('googleSign').addEventListener('click', async ()=>{
+      try{
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-        // Salva usuário na sessionStorage para manter login
-        sessionStorage.setItem('waped_user', JSON.stringify({ email: user.email, name: user.displayName }));
-        alert("Logado como: " + user.email);
-        // Redireciona para dashboard
-        window.location.href = "dashboard.html";
-      } catch (error) {
-        console.error(error);
-        alert("Erro ao fazer login: " + error.message);
+        sessionStorage.setItem('waped_user', JSON.stringify({ email: user.email, uid: user.uid, name: user.displayName }));
+        window.location.href = 'dashboard.html';
+      }catch(err){
+        console.error(err);
+        alert('Erro no login: ' + err.message);
       }
+    });
+
+    // demo destaque (substitui por dados reais quando houver)
+    const destaqueEl = document.getElementById('destaque');
+    const demo = [
+      { id:'D001', titulo:'Apartamento Moderno', cidade:'Goiânia', tipo:'Apartamento', valor:350000, foto:'https://picsum.photos/520/320?1' },
+      { id:'D002', titulo:'Casa em Condomínio', cidade:'Goiânia', tipo:'Casa', valor:650000, foto:'https://picsum.photos/520/320?2' },
+      { id:'D003', titulo:'Terreno Plano', cidade:'Goiânia', tipo:'Terreno', valor:180000, foto:'https://picsum.photos/520/320?3' }
+    ];
+    function renderDestaque(arr){
+      destaqueEl.innerHTML = arr.map(i=>`
+        <article class="card">
+          <img src="${i.foto}">
+          <div class="card-body">
+            <div class="title">${i.titulo}</div>
+            <div class="meta">${i.cidade} • ${i.tipo}</div>
+            <div class="price">R$ ${i.valor.toLocaleString()}</div>
+            <div style="margin-top:8px"><a class="btn" href="imoveis.html">Ver imóveis</a></div>
+          </div>
+        </article>
+      `).join('');
+    }
+    renderDestaque(demo);
+
+    // quick search nav -> redirect to imoveis with query (simple)
+    document.getElementById('btnBuscar').addEventListener('click', ()=>{
+      const q = document.getElementById('searchQ').value.trim();
+      const tipo = document.getElementById('searchTipo').value;
+      // pass params via URL
+      const params = new URLSearchParams();
+      if(q) params.set('q', q);
+      if(tipo) params.set('tipo', tipo);
+      location.href = 'imoveis.html?' + params.toString();
     });
   </script>
 </body>
