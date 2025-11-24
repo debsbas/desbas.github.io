@@ -1,135 +1,194 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WAPED — Cadastrar Imóvel</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WAPED — Cadastrar Imóvel</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="container">
-      <div class="brand">WAPED Imobiliária</div>
-      <nav>
-        <a href="imoveis.html">Ver Imóveis</a>
-        <a id="logout" href="#">Sair</a>
-      </nav>
-    </div>
-  </header>
+<header class="topbar">
+  <div class="container">
+    <div class="brand">WAPED Imobiliária</div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="imoveis.html">Ver Imóveis</a>
+      <a id="logout" href="#">Sair</a>
+    </nav>
+  </div>
+</header>
 
-  <main class="container page-content">
-    <section class="card">
-      <h2>Cadastrar Novo Imóvel</h2>
+<main class="container page-content">
+  <section class="card">
+    <h2>Cadastrar Novo Imóvel</h2>
 
-      <form id="formCadastro">
-        <div class="row">
-          <label>Título</label>
-          <input id="titulo" required>
+    <form id="formCadastro">
+      <div class="row">
+        <label>Título</label>
+        <input id="titulo" required>
+      </div>
+
+      <div class="row">
+        <label>Tipo</label>
+        <select id="tipo">
+          <option value="Apartamento">Apartamento</option>
+          <option value="Casa">Casa</option>
+          <option value="Casa em Condomínio">Casa em Condomínio</option>
+          <option value="Terreno">Terreno</option>
+          <option value="Chácara">Chácara</option>
+          <option value="Cobertura">Cobertura</option>
+          <option value="Fazenda">Fazenda</option>
+          <option value="Kitnet">Kitnet</option>
+          <option value="Studio">Studio</option>
+          <option value="Comercial">Comercial</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label>CEP</label>
+        <input id="cep" placeholder="00000-000">
+        <button type="button" id="buscarCep" class="btn small">Buscar CEP</button>
+      </div>
+
+      <div class="row">
+        <label>Cidade</label>
+        <input id="cidade">
+      </div>
+
+      <div class="row">
+        <label>Estado</label>
+        <input id="estado">
+      </div>
+
+      <div class="row triple">
+        <div>
+          <label>Banheiros</label>
+          <input id="banheiros" type="number" min="0">
         </div>
-
-        <div class="row">
-          <label>Tipo de Imóvel</label>
-          <select id="tipo">
-            <option>Área/Terreno</option>
-            <option>Casa de Rua</option>
-            <option>Casa em Condomínio</option>
-            <option>Chácara</option>
-            <option>Cobertura</option>
-            <option>Fazenda</option>
-            <option>Flat</option>
-            <option>Galpão/Depósito</option>
-            <option>Imóvel Comercial</option>
-            <option>Kitnet</option>
-            <option>Lote</option>
-            <option>Loteamento Aberto</option>
-            <option>Penthouse</option>
-            <option>Prédio Comercial</option>
-            <option>Apartamento</option>
-            <option>Apartamento Duplex</option>
-            <option>Sala Comercial</option>
-            <option>Sobrado</option>
-            <option>Studio</option>
-          </select>
+        <div>
+          <label>Garagem</label>
+          <input id="garagem" type="number" min="0">
         </div>
-
-        <div class="row">
-          <label>Pronto ou na Planta</label>
-          <select id="pronto">
-            <option value="true">Pronto</option>
-            <option value="false">Na Planta</option>
-          </select>
+        <div>
+          <label>Área m²</label>
+          <input id="area" type="number" min="0" placeholder="m²">
         </div>
+      </div>
 
-        <div class="row">
-          <label>CEP</label>
-          <input id="cep" placeholder="00000-000">
-          <button type="button" id="buscarCep" class="btn small">Buscar CEP</button>
+      <div class="row triple">
+        <div>
+          <label>Valor (R$)</label>
+          <input id="valor" type="number" min="0" step="0.01">
         </div>
-
-        <div class="row">
-          <label>Cidade</label>
-          <input id="cidade">
+        <div>
+          <label>IPTU/mês (R$)</label>
+          <input id="iptu" type="number" min="0" step="0.01">
         </div>
-
-        <div class="row">
-          <label>Estado</label>
-          <input id="estado">
+        <div>
+          <label>Ágio (R$)</label>
+          <input id="agio" type="number" min="0" step="0.01">
         </div>
+      </div>
 
-        <div class="row triple">
-          <div>
-            <label>Banheiros</label>
-            <input id="banheiros" type="number" min="0">
-          </div>
-          <div>
-            <label>Garagem</label>
-            <input id="garagem" type="number" min="0">
-          </div>
-          <div>
-            <label>Área m²</label>
-            <input id="area" type="number" min="0">
-          </div>
-        </div>
+      <div class="row">
+        <label>Descrição</label>
+        <textarea id="descricao" rows="4"></textarea>
+      </div>
 
-        <div class="row triple">
-          <div>
-            <label>Valor (R$)</label>
-            <input id="valor" type="number" min="0" step="0.01">
-          </div>
-          <div>
-            <label>IPTU/mês (R$)</label>
-            <input id="iptu" type="number" min="0" step="0.01">
-          </div>
-          <div>
-            <label>Preço/m² (R$)</label>
-            <input id="precoM2" type="number" min="0" step="0.01">
-          </div>
-        </div>
+      <div class="row">
+        <label>Fotos (múltiplas)</label>
+        <input id="fotos" type="file" accept="image/*" multiple>
+      </div>
 
-        <div class="row">
-          <label>Descrição</label>
-          <textarea id="descricao" rows="4"></textarea>
-        </div>
+      <div class="row">
+        <button class="btn primary" type="submit">Salvar Imóvel</button>
+        <button class="btn" type="button" id="limparBtn">Limpar</button>
+      </div>
+    </form>
+  </section>
+</main>
 
-        <div class="row">
-          <label>Fotos (múltiplas)</label>
-          <input id="fotos" type="file" accept="image/*" multiple>
-        </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
 
-        <div class="row">
-          <label>Documentos (PDF)</label>
-          <input id="docs" type="file" accept="application/pdf" multiple>
-        </div>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAMZ2r15ablc4LTDzNindBJCFipNdg3vcs",
+    authDomain: "waped-imobiliaria.firebaseapp.com",
+    projectId: "waped-imobiliaria",
+    storageBucket: "waped-imobiliaria.firebasestorage.app",
+    messagingSenderId: "99875066360",
+    appId: "1:99875066360:web:e10681e5d9bb8bc977860d"
+  };
 
-        <div class="row">
-          <button class="btn primary" type="submit">Salvar Imóvel</button>
-          <button class="btn" type="button" id="limparBtn">Limpar</button>
-        </div>
-      </form>
-    </section>
-  </main>
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
 
-  <script type="module" src="script.js"></script>
+  // proteção de acesso
+  if (!sessionStorage.getItem('waped_user')) location.href = 'index.html';
+
+  document.getElementById('logout').addEventListener('click', e=>{
+    e.preventDefault();
+    sessionStorage.removeItem('waped_user');
+    location.href='index.html';
+  });
+
+  document.getElementById('buscarCep').addEventListener('click', async ()=>{
+    const cep = (document.getElementById('cep').value || '').replace(/\D/g,'');
+    if (!cep) return alert('Informe o CEP');
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const data = await res.json();
+      if (data.erro) return alert('CEP não encontrado');
+      document.getElementById('cidade').value = data.localidade || '';
+      document.getElementById('estado').value = data.uf || '';
+    } catch (e) { alert('Erro ao buscar CEP'); }
+  });
+
+  document.getElementById('formCadastro').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const payload = {
+      titulo: document.getElementById('titulo').value.trim(),
+      tipo: document.getElementById('tipo').value,
+      cep: document.getElementById('cep').value.trim(),
+      cidade: document.getElementById('cidade').value.trim(),
+      estado: document.getElementById('estado').value.trim(),
+      banheiros: Number(document.getElementById('banheiros').value) || 0,
+      garagem: Number(document.getElementById('garagem').value) || 0,
+      area: Number(document.getElementById('area').value) || 0,
+      valor: Number(document.getElementById('valor').value) || 0,
+      iptu: Number(document.getElementById('iptu').value) || 0,
+      agio: Number(document.getElementById('agio').value) || 0,
+      descricao: document.getElementById('descricao').value.trim(),
+      fotos: []
+    };
+
+    // Upload fotos
+    const fotos = document.getElementById('fotos').files;
+    for (let i=0;i<fotos.length;i++){
+      const storageRef = ref(storage, `imoveis/${Date.now()}_${fotos[i].name}`);
+      await uploadBytes(storageRef, fotos[i]);
+      const url = await getDownloadURL(storageRef);
+      payload.fotos.push(url);
+    }
+
+    try {
+      await addDoc(collection(db, "imoveis"), {
+        ...payload,
+        createdAt: serverTimestamp()
+      });
+      alert('Imóvel salvo com sucesso!');
+      window.location.href = "imoveis.html";
+    } catch(err) {
+      console.error(err);
+      alert("Erro ao salvar imóvel.");
+    }
+  });
+
+  document.getElementById('limparBtn').addEventListener('click', ()=> document.getElementById('formCadastro').reset());
+</script>
 </body>
 </html>
-
