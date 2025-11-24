@@ -1,32 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WAPED Imobiliária - Login</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WAPED Imobiliária - Login</title>
 </head>
 <body>
-  <div class="page-center">
-    <div class="card auth-card">
-      <h2>WAPED Imobiliária</h2>
-      <button id="btnGoogle" class="btn primary">Login com Google</button>
-    </div>
-  </div>
+  <h1>WAPED Imobiliária</h1>
+  <button id="btnGoogle">Login com Google</button>
 
   <script type="module">
-    import { auth, provider } from './firebase.js';
-    import { signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMZ2r15ablc4LTDzNindBJCFipNdg3vcs",
+      authDomain: "waped-imobiliaria.firebaseapp.com",
+      projectId: "waped-imobiliaria",
+      storageBucket: "waped-imobiliaria.firebasestorage.app",
+      messagingSenderId: "99875066360",
+      appId: "1:99875066360:web:e10681e5d9bb8bc977860d"
+    };
+
+    // Inicializa Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // Botão de login
     document.getElementById("btnGoogle").addEventListener("click", async () => {
       try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-        sessionStorage.setItem('waped_user', JSON.stringify({ email: user.email, uid: user.uid }));
-        location.href = 'cadastro.html';
-      } catch (err) {
-        console.error(err);
-        alert('Erro no login: ' + err.message);
+        // Salva usuário na sessionStorage para manter login
+        sessionStorage.setItem('waped_user', JSON.stringify({ email: user.email, name: user.displayName }));
+        alert("Logado como: " + user.email);
+        // Redireciona para dashboard
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        console.error(error);
+        alert("Erro ao fazer login: " + error.message);
       }
     });
   </script>
