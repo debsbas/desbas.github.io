@@ -1,41 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>WAPED Imobiliária</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAPED Imobiliária - Login</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <h1>WAPED Imobiliária</h1>
-  <button id="btnGoogle">Login com Google</button>
+  <div class="page-center">
+    <div class="card auth-card">
+      <h2>WAPED Imobiliária</h2>
+      <button id="btnGoogle" class="btn primary">Login com Google</button>
+    </div>
+  </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup } 
-      from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import { auth, provider } from './firebase.js';
+    import { signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAMZ2r15ablc4LTDzNindBJCFipNdg3vcs",
-      authDomain: "waped-imobiliaria.firebaseapp.com",
-      projectId: "waped-imobiliaria",
-      storageBucket: "waped-imobiliaria.firebasestorage.app",
-      messagingSenderId: "99875066360",
-      appId: "1:99875066360:web:e10681e5d9bb8bc977860d"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-
-    document.getElementById("btnGoogle").addEventListener("click", () => {
-      signInWithPopup(auth, provider)
-        .then(result => {
-          const user = result.user;
-          alert("Logado como: " + user.email);
-        })
-        .catch(error => console.error(error));
+    document.getElementById("btnGoogle").addEventListener("click", async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        sessionStorage.setItem('waped_user', JSON.stringify({ email: user.email, uid: user.uid }));
+        location.href = 'cadastro.html';
+      } catch (err) {
+        console.error(err);
+        alert('Erro no login: ' + err.message);
+      }
     });
   </script>
-
 </body>
 </html>
