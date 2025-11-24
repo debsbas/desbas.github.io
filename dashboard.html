@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - WAPED Imobiliária</title>
+  <title>WAPED Imobiliária - Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <div class="container">
       <div class="brand">WAPED Imobiliária</div>
       <nav>
-        <a href="cadastro.html">Cadastrar</a>
+        <a href="cadastro.html">Cadastrar Imóvel</a>
         <a href="imoveis.html">Ver Imóveis</a>
         <a id="logout" href="#">Sair</a>
       </nav>
@@ -20,63 +20,69 @@
 
   <main class="container page-content">
     <h2>Dashboard</h2>
-    <div class="grid-3">
-      <div class="stat-card">
-        <div class="stat-num" id="totalImoveis">0</div>
-        <div class="stat-label">Imóveis Cadastrados</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="totalFotos">0</div>
-        <div class="stat-label">Fotos Cadastradas</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="totalValor">R$ 0</div>
-        <div class="stat-label">Valor Total dos Imóveis</div>
-      </div>
-    </div>
-
-    <section style="margin-top:20px">
-      <h3>Últimos Imóveis</h3>
-      <div id="ultimosImoveis" class="grid-list"></div>
-    </section>
+    <div id="list" class="grid-list"></div>
   </main>
 
-  <script type="module">
-    import { auth, db } from './firebase.js';
-    import { collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-    import { signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+  <script>
+    // proteção de acesso
+    const user = sessionStorage.getItem('waped_user');
+    if (!user) location.href = 'index.html';
 
-    // Proteção de acesso
-    auth.onAuthStateChanged(user => { if(!user) location.href='index.html'; });
-
-    document.getElementById('logout').addEventListener('click', async e=>{
+    document.getElementById('logout').addEventListener('click', e=>{
       e.preventDefault();
-      await signOut(auth);
+      sessionStorage.removeItem('waped_user');
       location.href='index.html';
     });
 
-    async function loadDashboard(){
-      const snapshot = await getDocs(collection(db,'imoveis'));
-      const items = [];
-      snapshot.forEach(doc=>items.push(doc.data()));
+    // imóveis de exemplo
+    const imoveisExemplo = [
+      {
+        id: "IMV000",
+        titulo: "Apartamento Moderno",
+        tipo: "Apartamento",
+        cidade: "Goiânia",
+        valor: 350000,
+        descricao: "Apartamento com 2 quartos, 1 suíte, varanda e garagem.",
+        fotos: ["https://picsum.photos/400/300?random=1"]
+      },
+      {
+        id: "IMV001",
+        titulo: "Casa em Condomínio",
+        tipo: "Casa em Condomínio",
+        cidade: "Goiânia",
+        valor: 650000,
+        descricao: "Casa ampla com 3 quartos, piscina e churrasqueira.",
+        fotos: ["https://picsum.photos/400/300?random=2"]
+      },
+      {
+        id: "IMV002",
+        titulo: "Terreno Urbano",
+        tipo: "Terreno",
+        cidade: "Goiânia",
+        valor: 180000,
+        descricao: "Terreno plano, pronto para construir, ótima localização.",
+        fotos: ["https://picsum.photos/400/300?random=3"]
+      }
+    ];
 
-      document.getElementById('totalImoveis').innerText = items.length;
-      document.getElementById('totalFotos').innerText = items.reduce((acc,i)=>acc+(i.fotos?.length||0),0);
-      document.getElementById('totalValor').innerText = 'R$ '+items.reduce((acc,i)=>acc+i.valor,0).toLocaleString();
-
-      const ultimos = items.sort((a,b)=>b.createdAt?.seconds - a.createdAt?.seconds).slice(0,5);
-      const cont = document.getElementById('ultimosImoveis');
-      cont.innerHTML = ultimos.map(i=>`<article class="card item-card">
-        <div class="item-head"><div class="item-code">${i.id}</div><div><strong>${i.titulo}</strong><div class="muted">${i.cidade} • ${i.tipo}</div></div></div>
-        <div class="item-body">
-          <div class="price">R$ ${Number(i.valor).toLocaleString()}</div>
-          <div class="meta">Banheiros ${i.banheiros} • Garagem ${i.garagem}</div>
-          ${i.fotos && i.fotos.length?`<img src="${i.fotos[0]}" style="width:100%;border-radius:6px;margin-top:8px">`:''}
-        </div>
-      </article>`).join('');
+    function renderImoveis(items){
+      const container = document.getElementById("list");
+      container.innerHTML = items.map(i => `
+        <article class="item-card">
+          <img src="${i.fotos[0]}" style="width:100%;border-radius:8px;margin-bottom:8px">
+          <div class="item-head">
+            <div class="item-code">${i.id}</div>
+            <div><strong>${i.titulo}</strong><div class="muted">${i.cidade} • ${i.tipo}</div></div>
+          </div>
+          <div class="item-body">
+            <div class="price">R$ ${i.valor.toLocaleString()}</div>
+            <p>${i.descricao}</p>
+          </div>
+        </article>
+      `).join('');
     }
 
-    loadDashboard();
+    renderImoveis(imoveisExemplo);
   </script>
 </body>
 </html>
