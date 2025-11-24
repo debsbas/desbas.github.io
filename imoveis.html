@@ -1,47 +1,167 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>WAPED — Imóveis</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAPED — Imóveis Cadastrados</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="container">
-      <div class="brand">WAPED Imobiliária</div>
-      <nav>
-        <a href="cadastro.html">Cadastrar</a>
-        <a id="logout2" href="#">Sair</a>
-      </nav>
+
+<header class="topbar">
+  <div class="container">
+    <div class="brand">WAPED Imobiliária</div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="cadastro.html">Cadastrar Imóvel</a>
+      <a id="logout" href="#">Sair</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container page-content">
+
+<h2>Imóveis Cadastrados</h2>
+
+<!-- FILTROS -->
+<section class="card">
+  <h3>Filtros</h3>
+  <div class="row triple">
+    <div>
+      <label>Tipo</label>
+      <select id="filtroTipo">
+        <option value="">Todos</option>
+        <option value="Apartamento">Apartamento</option>
+        <option value="Casa">Casa</option>
+        <option value="Casa em Condomínio">Casa em Condomínio</option>
+        <option value="Terreno">Terreno</option>
+        <option value="Chácara">Chácara</option>
+        <option value="Cobertura">Cobertura</option>
+        <option value="Fazenda">Fazenda</option>
+        <option value="Kitnet">Kitnet</option>
+        <option value="Studio">Studio</option>
+        <option value="Comercial">Imóvel Comercial</option>
+      </select>
     </div>
-  </header>
 
-  <main class="container page-content">
-    <section class="card">
-      <h2>Imóveis Cadastrados</h2>
+    <div>
+      <label>Faixa de Preço</label>
+      <select id="filtroValor">
+        <option value="">Todas</option>
+        <option value="0-200000">Até 200 mil</option>
+        <option value="200000-400000">200 mil a 400 mil</option>
+        <option value="400000-600000">400 mil a 600 mil</option>
+        <option value="600000-800000">600 mil a 800 mil</option>
+        <option value="800000-1000000">800 mil a 1 milhão</option>
+        <option value="1000000-2000000">1 a 2 milhões</option>
+        <option value="2000000-3000000">2 a 3 milhões</option>
+        <option value="3000000-4000000">3 a 4 milhões</option>
+      </select>
+    </div>
 
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <input id="q" placeholder="Buscar por título, cidade ou código..." style="flex:1;padding:8px;border-radius:6px;border:1px solid #ddd">
-        <select id="filterTipo"><option value="">Todos os tipos</option></select>
-        <select id="filterValor">
-          <option value="">Todos os valores</option>
-          <option value="0-200000">Até 200 mil</option>
-          <option value="200000-400000">200 mil a 400 mil</option>
-          <option value="400000-600000">400 mil a 600 mil</option>
-          <option value="600000-800000">600 mil a 800 mil</option>
-          <option value="800000-1000000">800 mil a 1 milhão</option>
-          <option value="1000000-2000000">1 a 2 milhões</option>
-          <option value="2000000-3000000">2 a 3 milhões</option>
-          <option value="3000000-4000000">3 a 4 milhões</option>
-        </select>
-        <button class="btn" id="btnSearch">Buscar</button>
+    <div style="display:flex;align-items:end;">
+      <button id="limparFiltros" class="btn small">Limpar Filtros</button>
+    </div>
+  </div>
+</section>
+
+<!-- LISTA DE IMÓVEIS -->
+<section id="listaImoveis" class="grid-list"></section>
+
+<!-- Botão Voltar -->
+<div style="margin-top:20px;">
+  <button class="btn" onclick="window.location.href='dashboard.html'">Voltar</button>
+</div>
+
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAMZ2r15ablc4LTDzNindBJCFipNdg3vcs",
+  authDomain: "waped-imobiliaria.firebaseapp.com",
+  projectId: "waped-imobiliaria",
+  storageBucket: "waped-imobiliaria.firebasestorage.app",
+  messagingSenderId: "99875066360",
+  appId: "1:99875066360:web:e10681e5d9bb8bc977860d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Proteção de acesso
+if (!sessionStorage.getItem("waped_user")) {
+  location.href = "index.html";
+}
+
+document.getElementById("logout").addEventListener("click", e => {
+  e.preventDefault();
+  sessionStorage.removeItem("waped_user");
+  location.href = "index.html";
+});
+
+let lista = []; // Lista completa do Firebase
+
+async function carregarImoveis() {
+  const snap = await getDocs(collection(db, "imoveis"));
+  lista = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  render(lista);
+}
+
+// Aplica filtros
+function aplicarFiltros() {
+  let filtrado = [...lista];
+
+  const tipo = document.getElementById("filtroTipo").value;
+  const faixa = document.getElementById("filtroValor").value;
+
+  if (tipo) {
+    filtrado = filtrado.filter(i => i.tipo === tipo);
+  }
+
+  if (faixa) {
+    const [min, max] = faixa.split("-").map(Number);
+    filtrado = filtrado.filter(i => i.valor >= min && i.valor <= max);
+  }
+
+  render(filtrado);
+}
+
+document.getElementById("filtroTipo").addEventListener("change", aplicarFiltros);
+document.getElementById("filtroValor").addEventListener("change", aplicarFiltros);
+
+document.getElementById("limparFiltros").addEventListener("click", () => {
+  document.getElementById("filtroTipo").value = "";
+  document.getElementById("filtroValor").value = "";
+  render(lista);
+});
+
+// Renderizar imóveis
+function render(arr) {
+  const container = document.getElementById("listaImoveis");
+  container.innerHTML = arr.map(i => `
+    <article class="item-card">
+      <img src="${i.fotos?.[0] || 'https://via.placeholder.com/400x300'}" 
+           style="width:100%;height:200px;object-fit:cover;border-radius:8px">
+
+      <div class="item-head">
+        <div class="item-code">ID: ${i.id.slice(0,6).toUpperCase()}</div>
+        <div><strong>${i.titulo}</strong>
+        <div class="muted">${i.cidade} - ${i.estado}</div></div>
       </div>
 
-      <div id="list" class="grid-list"></div>
-    </section>
-  </main>
+      <div class="item-body">
+        <div class="price">R$ ${i.valor.toLocaleString()}</div>
+        <p>${i.descricao || ""}</p>
+      </div>
+    </article>
+  `).join("");
+}
 
-  <script type="module" src="script.js"></script>
+carregarImoveis();
+</script>
+
 </body>
 </html>
