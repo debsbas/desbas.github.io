@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WAPED — Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div class="brand">WAPED Imobiliária</div>
+      <nav>
+        <a id="navImoveis" href="imoveis.html">Ver Imóveis</a>
+        <a id="navCadastro" href="cadastro.html">Cadastrar Imóvel</a>
+        <a id="logoutBtn" href="#">Sair</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-content">
+    <section class="card">
+      <h2>Bem-vinda(o), <span id="userEmail"></span></h2>
+      <p class="muted">Use o painel para cadastrar e gerenciar anúncios.</p>
+
+      <div class="grid-3">
+        <div class="stat-card">
+          <div class="stat-num" id="countTotal">0</div>
+          <div class="stat-label">Imóveis cadastrados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="countActive">0</div>
+          <div class="stat-label">Último ID</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="countOther">—</div>
+          <div class="stat-label">Rápido</div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <a class="btn primary" href="cadastro.html">+ Novo Imóvel</a>
+        <a class="btn" href="imoveis.html">Ver Lista</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    (function(){
+      // proteger: se não logado, volta para login
+      const user = sessionStorage.getItem('waped_user');
+      if (!user) location.href = 'index.html';
+      const userObj = JSON.parse(user);
+      document.getElementById('userEmail').textContent = userObj.email;
+
+      document.getElementById('logoutBtn').addEventListener('click', (e)=>{
+        e.preventDefault();
+        sessionStorage.removeItem('waped_user');
+        location.href = 'index.html';
+      });
+
+      // carregar estatísticas simples do storage
+      const imoveis = StorageLib.getAll();
+      document.getElementById('countTotal').textContent = imoveis.length;
+      document.getElementById('countActive').textContent = StorageLib.lastId() || '—';
+    })();
+  </script>
+</body>
+</html>
