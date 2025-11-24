@@ -1,17 +1,16 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WAPED — Cadastrar Imóvel</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAPED — Cadastrar Imóvel</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="topbar">
     <div class="container">
       <div class="brand">WAPED Imobiliária</div>
       <nav>
-        <a href="dashboard.html">Dashboard</a>
         <a href="imoveis.html">Ver Imóveis</a>
         <a id="logout" href="#">Sair</a>
       </nav>
@@ -29,26 +28,36 @@
         </div>
 
         <div class="row">
-          <label>Tipo</label>
+          <label>Tipo de Imóvel</label>
           <select id="tipo">
-            <option>Apartamento</option>
-            <option>Casa</option>
+            <option>Área/Terreno</option>
+            <option>Casa de Rua</option>
             <option>Casa em Condomínio</option>
-            <option>Terreno</option>
-            <option>Loteamento Aberto</option>
-            <option>Kitnet</option>
-            <option>Studio</option>
             <option>Chácara</option>
-            <option>Fazenda</option>
-            <option>Galpão</option>
-            <option>Comercial</option>
             <option>Cobertura</option>
+            <option>Fazenda</option>
+            <option>Flat</option>
+            <option>Galpão/Depósito</option>
+            <option>Imóvel Comercial</option>
+            <option>Kitnet</option>
+            <option>Lote</option>
+            <option>Loteamento Aberto</option>
+            <option>Penthouse</option>
+            <option>Prédio Comercial</option>
+            <option>Apartamento</option>
+            <option>Apartamento Duplex</option>
+            <option>Sala Comercial</option>
+            <option>Sobrado</option>
+            <option>Studio</option>
           </select>
         </div>
 
         <div class="row">
-          <label>Subtipo (opcional)</label>
-          <input id="subtipo" placeholder="ex: Apartamento duplex">
+          <label>Pronto ou na Planta</label>
+          <select id="pronto">
+            <option value="true">Pronto</option>
+            <option value="false">Na Planta</option>
+          </select>
         </div>
 
         <div class="row">
@@ -78,7 +87,7 @@
           </div>
           <div>
             <label>Área m²</label>
-            <input id="area" type="number" min="0" placeholder="m²">
+            <input id="area" type="number" min="0">
           </div>
         </div>
 
@@ -92,14 +101,9 @@
             <input id="iptu" type="number" min="0" step="0.01">
           </div>
           <div>
-            <label>Ágio (R$)</label>
-            <input id="agio" type="number" min="0" step="0.01">
+            <label>Preço/m² (R$)</label>
+            <input id="precoM2" type="number" min="0" step="0.01">
           </div>
-        </div>
-
-        <div class="row">
-          <label>Preço por m² (R$)</label>
-          <input id="precoM2" type="number" min="0" step="0.01" placeholder="opcional">
         </div>
 
         <div class="row">
@@ -125,67 +129,7 @@
     </section>
   </main>
 
-  <script src="storage.js"></script>
-  <script src="script.js"></script>
-  <script>
-    // proteção de acesso
-    if (!sessionStorage.getItem('waped_user')) location.href = 'index.html';
-
-    document.getElementById('logout').addEventListener('click', (e)=>{
-      e.preventDefault(); sessionStorage.removeItem('waped_user'); location.href='index.html';
-    });
-
-    document.getElementById('buscarCep').addEventListener('click', async ()=>{
-      const cep = (document.getElementById('cep').value || '').replace(/\D/g,'');
-      if (!cep) return alert('Informe o CEP');
-      try {
-        const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-        const data = await res.json();
-        if (data.erro) return alert('CEP não encontrado');
-        document.getElementById('cidade').value = data.localidade || '';
-        document.getElementById('estado').value = data.uf || '';
-      } catch (e) { alert('Erro ao buscar CEP'); }
-    });
-
-    document.getElementById('formCadastro').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      // coletar dados
-      const payload = {
-        titulo: document.getElementById('titulo').value.trim(),
-        tipo: document.getElementById('tipo').value,
-        subtipo: document.getElementById('subtipo').value.trim(),
-        cep: document.getElementById('cep').value.trim(),
-        cidade: document.getElementById('cidade').value.trim(),
-        estado: document.getElementById('estado').value.trim(),
-        banheiros: Number(document.getElementById('banheiros').value) || 0,
-        garagem: Number(document.getElementById('garagem').value) || 0,
-        area: Number(document.getElementById('area').value) || 0,
-        valor: Number(document.getElementById('valor').value) || 0,
-        iptu: Number(document.getElementById('iptu').value) || 0,
-        agio: Number(document.getElementById('agio').value) || 0,
-        precoM2: Number(document.getElementById('precoM2').value) || 0,
-        descricao: document.getElementById('descricao').value.trim(),
-        fotos: [], docs: []
-      };
-
-      // arquivos: para teste local salvamos nomes e data (para demonstração)
-      const fotos = document.getElementById('fotos').files;
-      for (let i=0;i<fotos.length;i++){
-        payload.fotos.push({ name: fotos[i].name, size: fotos[i].size });
-      }
-      const docs = document.getElementById('docs').files;
-      for (let i=0;i<docs.length;i++){
-        payload.docs.push({ name: docs[i].name, size: docs[i].size });
-      }
-
-      // gera id sequencial e salva via StorageLib
-      StorageLib.save(payload);
-      alert('Imóvel salvo com sucesso!');
-      // redireciona para lista
-      location.href = 'imoveis.html';
-    });
-
-    document.getElementById('limparBtn').addEventListener('click', ()=> document.getElementById('formCadastro').reset());
-  </script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
+
