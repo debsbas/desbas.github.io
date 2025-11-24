@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WAPED — Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - WAPED Imobiliária</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,60 +11,72 @@
     <div class="container">
       <div class="brand">WAPED Imobiliária</div>
       <nav>
-        <a id="navImoveis" href="imoveis.html">Ver Imóveis</a>
-        <a id="navCadastro" href="cadastro.html">Cadastrar Imóvel</a>
-        <a id="logoutBtn" href="#">Sair</a>
+        <a href="cadastro.html">Cadastrar</a>
+        <a href="imoveis.html">Ver Imóveis</a>
+        <a id="logout" href="#">Sair</a>
       </nav>
     </div>
   </header>
 
   <main class="container page-content">
-    <section class="card">
-      <h2>Bem-vinda(o), <span id="userEmail"></span></h2>
-      <p class="muted">Use o painel para cadastrar e gerenciar anúncios.</p>
-
-      <div class="grid-3">
-        <div class="stat-card">
-          <div class="stat-num" id="countTotal">0</div>
-          <div class="stat-label">Imóveis cadastrados</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" id="countActive">0</div>
-          <div class="stat-label">Último ID</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" id="countOther">—</div>
-          <div class="stat-label">Rápido</div>
-        </div>
+    <h2>Dashboard</h2>
+    <div class="grid-3">
+      <div class="stat-card">
+        <div class="stat-num" id="totalImoveis">0</div>
+        <div class="stat-label">Imóveis Cadastrados</div>
       </div>
-
-      <div style="margin-top:18px;">
-        <a class="btn primary" href="cadastro.html">+ Novo Imóvel</a>
-        <a class="btn" href="imoveis.html">Ver Lista</a>
+      <div class="stat-card">
+        <div class="stat-num" id="totalFotos">0</div>
+        <div class="stat-label">Fotos Cadastradas</div>
       </div>
+      <div class="stat-card">
+        <div class="stat-num" id="totalValor">R$ 0</div>
+        <div class="stat-label">Valor Total dos Imóveis</div>
+      </div>
+    </div>
+
+    <section style="margin-top:20px">
+      <h3>Últimos Imóveis</h3>
+      <div id="ultimosImoveis" class="grid-list"></div>
     </section>
   </main>
 
-  <script src="script.js"></script>
-  <script>
-    (function(){
-      // proteger: se não logado, volta para login
-      const user = sessionStorage.getItem('waped_user');
-      if (!user) location.href = 'index.html';
-      const userObj = JSON.parse(user);
-      document.getElementById('userEmail').textContent = userObj.email;
+  <script type="module">
+    import { auth, db } from './firebase.js';
+    import { collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+    import { signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-      document.getElementById('logoutBtn').addEventListener('click', (e)=>{
-        e.preventDefault();
-        sessionStorage.removeItem('waped_user');
-        location.href = 'index.html';
-      });
+    // Proteção de acesso
+    auth.onAuthStateChanged(user => { if(!user) location.href='index.html'; });
 
-      // carregar estatísticas simples do storage
-      const imoveis = StorageLib.getAll();
-      document.getElementById('countTotal').textContent = imoveis.length;
-      document.getElementById('countActive').textContent = StorageLib.lastId() || '—';
-    })();
+    document.getElementById('logout').addEventListener('click', async e=>{
+      e.preventDefault();
+      await signOut(auth);
+      location.href='index.html';
+    });
+
+    async function loadDashboard(){
+      const snapshot = await getDocs(collection(db,'imoveis'));
+      const items = [];
+      snapshot.forEach(doc=>items.push(doc.data()));
+
+      document.getElementById('totalImoveis').innerText = items.length;
+      document.getElementById('totalFotos').innerText = items.reduce((acc,i)=>acc+(i.fotos?.length||0),0);
+      document.getElementById('totalValor').innerText = 'R$ '+items.reduce((acc,i)=>acc+i.valor,0).toLocaleString();
+
+      const ultimos = items.sort((a,b)=>b.createdAt?.seconds - a.createdAt?.seconds).slice(0,5);
+      const cont = document.getElementById('ultimosImoveis');
+      cont.innerHTML = ultimos.map(i=>`<article class="card item-card">
+        <div class="item-head"><div class="item-code">${i.id}</div><div><strong>${i.titulo}</strong><div class="muted">${i.cidade} • ${i.tipo}</div></div></div>
+        <div class="item-body">
+          <div class="price">R$ ${Number(i.valor).toLocaleString()}</div>
+          <div class="meta">Banheiros ${i.banheiros} • Garagem ${i.garagem}</div>
+          ${i.fotos && i.fotos.length?`<img src="${i.fotos[0]}" style="width:100%;border-radius:6px;margin-top:8px">`:''}
+        </div>
+      </article>`).join('');
+    }
+
+    loadDashboard();
   </script>
 </body>
 </html>
