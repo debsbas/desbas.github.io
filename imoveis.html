@@ -1,17 +1,16 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WAPED — Imóveis</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WAPED — Imóveis</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="topbar">
     <div class="container">
       <div class="brand">WAPED Imobiliária</div>
       <nav>
-        <a href="dashboard.html">Dashboard</a>
         <a href="cadastro.html">Cadastrar</a>
         <a id="logout2" href="#">Sair</a>
       </nav>
@@ -25,6 +24,17 @@
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
         <input id="q" placeholder="Buscar por título, cidade ou código..." style="flex:1;padding:8px;border-radius:6px;border:1px solid #ddd">
         <select id="filterTipo"><option value="">Todos os tipos</option></select>
+        <select id="filterValor">
+          <option value="">Todos os valores</option>
+          <option value="0-200000">Até 200 mil</option>
+          <option value="200000-400000">200 mil a 400 mil</option>
+          <option value="400000-600000">400 mil a 600 mil</option>
+          <option value="600000-800000">600 mil a 800 mil</option>
+          <option value="800000-1000000">800 mil a 1 milhão</option>
+          <option value="1000000-2000000">1 a 2 milhões</option>
+          <option value="2000000-3000000">2 a 3 milhões</option>
+          <option value="3000000-4000000">3 a 4 milhões</option>
+        </select>
         <button class="btn" id="btnSearch">Buscar</button>
       </div>
 
@@ -32,51 +42,6 @@
     </section>
   </main>
 
-  <script src="storage.js"></script>
-  <script src="script.js"></script>
-  <script>
-    if (!sessionStorage.getItem('waped_user')) location.href = 'index.html';
-    document.getElementById('logout2').addEventListener('click',(e)=>{ e.preventDefault(); sessionStorage.removeItem('waped_user'); location.href='index.html'; });
-
-    function render(items){
-      const container = document.getElementById('list');
-      if (!items.length) { container.innerHTML = '<div class="muted">Nenhum imóvel encontrado.</div>'; return; }
-      container.innerHTML = items.map(i => {
-        return `<article class="card item-card">
-          <div class="item-head">
-            <div class="item-code">${i.id}</div>
-            <div><strong>${i.titulo}</strong><div class="muted">${i.cidade || ''} • ${i.tipo}</div></div>
-          </div>
-          <div class="item-body">
-            <div class="price">R$ ${Number(i.valor).toLocaleString()}</div>
-            <div class="meta">IPTU ${i.iptu ? 'R$ '+i.iptu : '—'} • Ágio ${i.agio ? 'R$ '+i.agio : '—'}</div>
-            <p>${(i.descricao||'').slice(0,160)}${(i.descricao||'').length>160?'...':''}</p>
-          </div>
-          <div class="item-actions">
-            <button class="btn small" data-id="${i.id}" onclick="StorageLib.remove('${i.id}'); load();">Excluir</button>
-          </div>
-        </article>`;
-      }).join('');
-    }
-
-    function load(){
-      let items = StorageLib.getAll();
-      // preencher tipos
-      const types = Array.from(new Set(items.map(x=>x.tipo))).filter(Boolean);
-      const sel = document.getElementById('filterTipo'); sel.innerHTML = '<option value=\"\">Todos os tipos</option>'+types.map(t=>`<option>${t}</option>`).join('');
-      render(items);
-    }
-
-    document.getElementById('btnSearch').addEventListener('click', ()=>{
-      const q = (document.getElementById('q').value || '').toLowerCase();
-      const tipo = document.getElementById('filterTipo').value;
-      let items = StorageLib.getAll();
-      if (q) items = items.filter(i => (i.titulo||'').toLowerCase().includes(q) || (i.cidade||'').toLowerCase().includes(q) || (i.id||'').toLowerCase().includes(q));
-      if (tipo) items = items.filter(i => i.tipo === tipo);
-      render(items);
-    });
-
-    load();
-  </script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
