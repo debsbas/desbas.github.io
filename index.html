@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>WAPED Imobiliária</title>
+</head>
+
+<body>
+  <h1>WAPED Imobiliária</h1>
+  <button id="btnGoogle">Login com Google</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } 
+      from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMZ2r15ablc4LTDzNindBJCFipNdg3vcs",
+      authDomain: "waped-imobiliaria.firebaseapp.com",
+      projectId: "waped-imobiliaria",
+      storageBucket: "waped-imobiliaria.firebasestorage.app",
+      messagingSenderId: "99875066360",
+      appId: "1:99875066360:web:e10681e5d9bb8bc977860d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    document.getElementById("btnGoogle").addEventListener("click", () => {
+      signInWithPopup(auth, provider)
+        .then(result => {
+          const user = result.user;
+          alert("Logado como: " + user.email);
+        })
+        .catch(error => console.error(error));
+    });
+  </script>
+
+</body>
+</html>
