@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login do Corretor - WAPED</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      background: #f4f4f4;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+      width: 330px;
+      text-align: center;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #4285F4;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover { opacity: .9; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Área do Corretor</h2>
+    <p>Faça login com sua conta Google</p>
+    <button id="googleLogin">Entrar com Google</button>
+  </div>
+
+  <script type="module">
+    import { auth, provider } from './firebase.js';
+    import { signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+    document.getElementById("googleLogin").addEventListener("click", async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        // salva dados básicos
+        sessionStorage.setItem("waped_user", JSON.stringify({
+          uid: user.uid,
+          email: user.email,
+          name: user.displayName
+        }));
+
+        // redireciona para o painel
+        window.location.href = "dashboard.html";
+
+      } catch (err) {
+        console.error(err);
+        alert("Erro ao fazer login: " + err.message);
+      }
+    });
+  </script>
+
+</body>
+</html>
