@@ -1,384 +1,235 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WAPED Imobiliária</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-   <!-- font awesome cdn link  -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <style>
+    :root{
+      --primary:#2563eb;
+      --dark:#0f172a;
+      --light:#f8fafc;
+      --muted:#6b7280;
+      --radius:14px;
+      --shadow:0 6px 24px rgba(0,0,0,.08);
+    }
 
-   <!-- custom css file link  -->
-   <link rel="stylesheet" href="css/style.css">
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+    body{background:#ffffff;color:var(--dark);}    
 
+    /* HEADER */
+    header{
+      width:100%;
+      background:#fff;
+      box-shadow:0 2px 20px rgba(0,0,0,.05);
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+    .header-container{
+      max-width:1200px;
+      margin:auto;
+      padding:18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand{
+      font-size:1.4rem;
+      font-weight:700;
+      color:var(--primary);
+      letter-spacing:-0.5px;
+    }
+    nav a{
+      margin-left:24px;
+      text-decoration:none;
+      color:var(--dark);
+      font-weight:500;
+      transition:.2s;
+    }
+    nav a:hover{color:var(--primary);}
+
+    .cta{
+      background:var(--primary);
+      padding:10px 18px;
+      border-radius:var(--radius);
+      color:white !important;
+      font-weight:600;
+    }
+
+    /* HERO */
+    .hero{
+      max-width:1200px;
+      margin:50px auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:40px;
+      padding:20px;
+    }
+    .hero h1{
+      font-size:2.5rem;
+      font-weight:800;
+      margin-bottom:12px;
+    }
+    .hero p{color:var(--muted);margin-bottom:20px;}
+
+    .search-row{
+      display:flex;
+      gap:10px;
+      margin-top:18px;
+    }
+    .search-row input,
+    .search-row select{
+      flex:1;
+      padding:12px;
+      border-radius:var(--radius);
+      border:1px solid #d1d5db;
+    }
+    .btn{
+      padding:12px 20px;
+      border:none;
+      cursor:pointer;
+      border-radius:var(--radius);
+      background:var(--dark);
+      color:white;
+      font-weight:600;
+      transition:.2s;
+    }
+    .btn:hover{opacity:.85;}
+    .btn.primary{background:var(--primary);}    
+
+    .hero img{
+      width:100%;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    /* GRID IMÓVEIS */
+    .cards{
+      max-width:1200px;
+      margin:40px auto;
+      padding:20px;
+    }
+    .grid{
+      margin-top:20px;
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+      gap:26px;
+    }
+    .card{
+      background:white;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      transition:.3s;
+    }
+    .card:hover{transform:translateY(-4px);}    
+    .card img{width:100%;height:190px;object-fit:cover;}
+    .card-body{padding:16px;}
+    .title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+    .meta{color:var(--muted);font-size:.9rem;margin-bottom:8px;}
+    .price{font-weight:700;color:var(--primary);}    
+
+    /* CLIENTE AREA */
+    .cliente-box{
+      background:#f1f5f9;
+      padding:30px;
+      border-radius:var(--radius);
+      margin-top:50px;
+    }
+
+    /* FOOTER */
+    footer{
+      text-align:center;
+      padding:25px;
+      margin-top:40px;
+      font-size:.9rem;
+      background:#f8fafc;
+      color:var(--muted);
+    }
+  </style>
 </head>
 <body>
-   
-<!-- header section starts  -->
 
-<header class="header">
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <div class="brand">WAPED Imobiliária</div>
+      <nav>
+        <a href="#imoveis">Imóveis</a>
+        <a href="#cliente">Área do Cliente</a>
+        <a class="cta" href="./login.html">Sou Corretor</a>
+      </nav>
+    </div>
+  </header>
 
-   <nav class="navbar nav-1">
-      <section class="flex">
-         <a href="home.html" class="logo"><i class="fas fa-house"></i>MyHome</a>
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <h1>Encontre o imóvel perfeito</h1>
+      <p>Sua nova casa está aqui. Explore os melhores imóveis da cidade com facilidade.</p>
 
-         <ul>
-            <li><a href="#">post property<i class="fas fa-paper-plane"></i></a></li>
-         </ul>
-      </section>
-   </nav>
-
-   <nav class="navbar nav-2">
-      <section class="flex">
-         <div id="menu-btn" class="fas fa-bars"></div>
-
-         <div class="menu">
-            <ul>
-               <li><a href="#">buy<i class="fas fa-angle-down"></i></a>
-                  <ul>
-                     <li><a href="#">house</a></li>
-                     <li><a href="#">flat</a></li>
-                     <li><a href="#">shop</a></li>
-                     <li><a href="#">ready to move</a></li>
-                     <li><a href="#">furnished</a></li>
-                  </ul>
-               </li>
-               <li><a href="#">sell<i class="fas fa-angle-down"></i></a>
-                  <ul>
-                     <li><a href="#">post property</a></li>
-                     <li><a href="#">dashboard</a></li>
-                  </ul>
-               </li>
-               <li><a href="#">rent</a>
-                  <ul>
-                     <li><a href="#">house</a></li>
-                     <li><a href="#">flat</a></li>
-                     <li><a href="#">shop</a></li>
-                  </ul>
-               </li>
-               <li><a href="#">help<i class="fas fa-angle-down"></i></a>
-                  <ul>
-                     <li><a href="about.html">about us</a></i></li>
-                     <li><a href="contact.html">contact us</a></i></li>
-                     <li><a href="contact.html#faq">FAQ</a></i></li>
-                  </ul>
-               </li>
-            </ul>
-         </div>
-
-         <ul>
-            <li><a href="#">saved <i class="far fa-heart"></i></a></li>
-            <li><a href="#">account <i class="fas fa-angle-down"></i></a>
-               <ul>
-                  <li><a href="login.html">login</a></li>
-                  <li><a href="register.html">register</a></li>
-               </ul>
-            </li>
-         </ul>
-      </section>
-   </nav>
-
-</header>
-
-<!-- header section ends -->
-
-<!-- home section starts  -->
-
-<div class="home">
-
-   <section class="center">
-
-      <form action="search.html" method="post">
-         <h3>find your perfect home</h3>
-         <div class="box">
-            <p>enter location <span>*</span></p>
-            <input type="text" name="location" required maxlength="50" placeholder="enter ciyt name" class="input">
-         </div>
-         <div class="flex">
-            <div class="box">
-               <p>property type <span>*</span></p>
-               <select name="type" class="input" required>
-                  <option value="flat">flat</option>
-                  <option value="house">house</option>
-                  <option value="shop">shop</option>
-               </select>
-            </div>
-            <div class="box">
-               <p>how many BHK <span>*</span></p>
-               <select name="bhk" class="input" required>
-                  <option value="1">1 BHK</option>
-                  <option value="2">2 BHK</option>
-                  <option value="3">3 BHK</option>
-                  <option value="4">4 BHK</option>
-                  <option value="5">5 BHK</option>
-                  <option value="6">6 BHK</option>
-                  <option value="7">7 BHK</option>
-                  <option value="8">8 BHK</option>
-                  <option value="9">9 BHK</option>
-               </select>
-            </div>
-            <div class="box">
-               <p>maximum budget <span>*</span></p>
-               <select name="minimum" class="input" required>
-                  <option value="5000000">5 lac</option>
-                  <option value="1000000">10 lac</option>
-                  <option value="2000000">20 lac</option>
-                  <option value="3000000">30 lac</option>
-                  <option value="4000000">40 lac</option>
-                  <option value="4000000">40 lac</option>
-                  <option value="5000000">50 lac</option>
-                  <option value="6000000">60 lac</option>
-                  <option value="7000000">70 lac</option>
-                  <option value="8000000">80 lac</option>
-                  <option value="9000000">90 lac</option>
-                  <option value="10000000">1 Cr</option>
-                  <option value="20000000">2 Cr</option>
-                  <option value="30000000">3 Cr</option>
-                  <option value="40000000">4 Cr</option>
-                  <option value="50000000">5 Cr</option>
-                  <option value="60000000">6 Cr</option>
-                  <option value="70000000">7 Cr</option>
-                  <option value="80000000">8 Cr</option>
-                  <option value="90000000">9 Cr</option>
-                  <option value="100000000">10 Cr</option>
-                  <option value="150000000">15 Cr</option>
-                  <option value="200000000">20 Cr</option>
-               </select>
-            </div>
-            <div class="box">
-               <p>maximum budget <span>*</span></p>
-               <select name="maximum" class="input" required>
-                  <option value="5000000">5 lac</option>
-                  <option value="1000000">10 lac</option>
-                  <option value="2000000">20 lac</option>
-                  <option value="3000000">30 lac</option>
-                  <option value="4000000">40 lac</option>
-                  <option value="4000000">40 lac</option>
-                  <option value="5000000">50 lac</option>
-                  <option value="6000000">60 lac</option>
-                  <option value="7000000">70 lac</option>
-                  <option value="8000000">80 lac</option>
-                  <option value="9000000">90 lac</option>
-                  <option value="10000000">1 Cr</option>
-                  <option value="20000000">2 Cr</option>
-                  <option value="30000000">3 Cr</option>
-                  <option value="40000000">4 Cr</option>
-                  <option value="50000000">5 Cr</option>
-                  <option value="60000000">6 Cr</option>
-                  <option value="70000000">7 Cr</option>
-                  <option value="80000000">8 Cr</option>
-                  <option value="90000000">9 Cr</option>
-                  <option value="100000000">10 Cr</option>
-                  <option value="150000000">15 Cr</option>
-                  <option value="200000000">20 Cr</option>
-               </select>
-            </div>
-         </div>
-         <input type="submit" value="search property" name="search" class="btn">
-      </form>
-
-   </section>
-
-</div>
-
-<!-- home section ends -->
-
-<!-- services section starts  -->
-
-<section class="services">
-
-   <h1 class="heading">our services</h1>
-
-   <div class="box-container">
-
-      <div class="box">
-         <img src="images/icon-1.png" alt="">
-         <h3>buy house</h3>
-         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, incidunt.</p>
+      <div class="search-row">
+        <input id="searchQ" placeholder="Cidade, bairro ou código">
+        <select id="searchTipo">
+          <option value="">Tipo</option>
+          <option>Apartamento</option>
+          <option>Casa</option>
+          <option>Terreno</option>
+        </select>
+        <button class="btn primary" id="btnBuscar">Buscar</button>
       </div>
+    </div>
 
-      <div class="box">
-         <img src="images/icon-2.png" alt="">
-         <h3>rent house</h3>
-         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, incidunt.</p>
+    <div>
+      <img src="https://picsum.photos/640/420?random" alt="Banner">
+    </div>
+  </section>
+
+  <!-- IMÓVEIS EM DESTAQUE -->
+  <main class="cards">
+    <h2 id="imoveis">Imóveis em Destaque</h2>
+    <div id="destaque" class="grid"></div>
+
+    <section id="cliente" class="cliente-box">
+      <h2>Área do Cliente</h2>
+      <p style="color:var(--muted)">Acompanhe contratos, boletos e atendimento personalizado.</p>
+      <button class="btn primary" onclick="location.href='cliente.html'">Acessar Área</button>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="ano"></span> WAPED Imobiliária — Todos os direitos reservados.
+  </footer>
+
+
+  <!-- SCRIPT PARA CARDS -->
+  <script>
+    document.getElementById('ano').innerText = new Date().getFullYear();
+
+    const destaque = [
+      {titulo:'Apto Moderno', cidade:'Goiânia', tipo:'Apartamento', valor:350000, foto:'https://picsum.photos/400/300?1'},
+      {titulo:'Casa em Condomínio', cidade:'Goiânia', tipo:'Casa', valor:650000, foto:'https://picsum.photos/400/300?2'},
+      {titulo:'Terreno Plano', cidade:'Goiânia', tipo:'Terreno', valor:180000, foto:'httpsum.photos/400/300?3'}
+    ];
+
+    const grid = document.getElementById('destaque');
+    grid.innerHTML = destaque.map(i=>`
+      <div class="card">
+        <img src="${i.foto}">
+        <div class="card-body">
+          <div class="title">${i.titulo}</div>
+          <div class="meta">${i.cidade} • ${i.tipo}</div>
+          <div class="price">R$ ${i.valor.toLocaleString()}</div>
+          <div style="margin-top:10px"><a class="btn" href="imoveis.html">Ver mais</a></div>
+        </div>
       </div>
-
-      <div class="box">
-         <img src="images/icon-3.png" alt="">
-         <h3>sell house</h3>
-         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, incidunt.</p>
-      </div>
-
-      <div class="box">
-         <img src="images/icon-4.png" alt="">
-         <h3>flats and buildings</h3>
-         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, incidunt.</p>
-      </div>
-
-      <div class="box">
-         <img src="images/icon-5.png" alt="">
-         <h3>shops and malls</h3>
-         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, incidunt.</p>
-      </div>
-
-      <div class="box">
-         <img src="images/icon-6.png" alt="">
-         <h3>24/7 service</h3>
-         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, incidunt.</p>
-      </div>
-
-   </div>
-
-</section>
-
-<!-- services section ends -->
-
-<!-- listings section starts  -->
-
-<section class="listings">
-
-   <h1 class="heading">latest listings</h1>
-
-   <div class="box-container">
-
-      <div class="box">
-         <div class="admin">
-            <h3>j</h3>
-            <div>
-               <p>john deo</p>
-               <span>10-11-2022</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <p class="total-images"><i class="far fa-image"></i><span>4</span></p>
-            <p class="type"><span>house</span><span>sale</span></p>
-            <form action="" method="post" class="save">
-               <button type="submit" name="save" class="far fa-heart"></button>
-            </form>
-            <img src="images/house-img-1.webp" alt="">
-         </div>
-         <h3 class="name">modern flats and appartments</h3>
-         <p class="location"><i class="fas fa-map-marker-alt"></i><span>andheri, mumbai, india - 401303</span></p>
-         <div class="flex">
-            <p><i class="fas fa-bed"></i><span>3</span></p>
-            <p><i class="fas fa-bath"></i><span>2</span></p>
-            <p><i class="fas fa-maximize"></i><span>750sqft</span></p>
-         </div>
-         <a href="view_property.html" class="btn">view property</a>
-      </div>
-
-      <div class="box">
-         <div class="admin">
-            <h3>j</h3>
-            <div>
-               <p>john deo</p>
-               <span>10-11-2022</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <p class="total-images"><i class="far fa-image"></i><span>4</span></p>
-            <p class="type"><span>flat</span><span>sale</span></p>
-            <form action="" method="post" class="save">
-               <button type="submit" name="save" class="far fa-heart"></button>
-            </form>
-            <img src="images/house-img-2.webp" alt="">
-         </div>
-         <h3 class="name">modern flats and appartments</h3>
-         <p class="location"><i class="fas fa-map-marker-alt"></i><span>andheri, mumbai, india - 401303</span></p>
-         <div class="flex">
-            <p><i class="fas fa-bed"></i><span>3</span></p>
-            <p><i class="fas fa-bath"></i><span>2</span></p>
-            <p><i class="fas fa-maximize"></i><span>750sqft</span></p>
-         </div>
-         <a href="view_property.html" class="btn">view property</a>
-      </div>
-
-      <div class="box">
-         <div class="admin">
-            <h3>j</h3>
-            <div>
-               <p>john deo</p>
-               <span>10-11-2022</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <p class="total-images"><i class="far fa-image"></i><span>4</span></p>
-            <p class="type"><span>flat</span><span>sale</span></p>
-            <form action="" method="post" class="save">
-               <button type="submit" name="save" class="far fa-heart"></button>
-            </form>
-            <img src="images/house-img-3.jpg" alt="">
-         </div>
-         <h3 class="name">modern flats and appartments</h3>
-         <p class="location"><i class="fas fa-map-marker-alt"></i><span>andheri, mumbai, india - 401303</span></p>
-         <div class="flex">
-            <p><i class="fas fa-bed"></i><span>3</span></p>
-            <p><i class="fas fa-bath"></i><span>2</span></p>
-            <p><i class="fas fa-maximize"></i><span>750sqft</span></p>
-         </div>
-         <a href="view_property.html" class="btn">view property</a>
-      </div>
-
-   </div>
-
-   <div style="margin-top: 2rem; text-align:center;">
-      <a href="listings.html" class="inline-btn">view all</a>
-   </div>
-
-</section>
-
-<!-- listings section ends -->
-
-
-
-
-
-
-
-
-
-
-<!-- footer section starts  -->
-
-<footer class="footer">
-
-   <section class="flex">
-
-      <div class="box">
-         <a href="tel:1234567890"><i class="fas fa-phone"></i><span>123456789</span></a>
-         <a href="tel:1112223333"><i class="fas fa-phone"></i><span>1112223333</span></a>
-         <a href="mailto:shaikhanas@gmail.com"><i class="fas fa-envelope"></i><span>shaikhanas@gmail.com</span></a>
-         <a href="#"><i class="fas fa-map-marker-alt"></i><span>mumbai, india - 400104</span></a>
-      </div>
-
-      <div class="box">
-         <a href="home.html"><span>home</span></a>
-         <a href="about.html"><span>about</span></a>
-         <a href="contact.html"><span>contact</span></a>
-         <a href="listings.html"><span>all listings</span></a>
-         <a href="#"><span>saved properties</span></a>
-      </div>
-
-      <div class="box">
-         <a href="#"><span>facebook</span><i class="fab fa-facebook-f"></i></a>
-         <a href="#"><span>twitter</span><i class="fab fa-twitter"></i></a>
-         <a href="#"><span>linkedin</span><i class="fab fa-linkedin"></i></a>
-         <a href="#"><span>instagram</span><i class="fab fa-instagram"></i></a>
-
-      </div>
-
-   </section>
-
-   <div class="credit">&copy; copyright @ 2022 by <span>mr. web designer</span> | all rights reserved!</div>
-
-</footer>
-
-<!-- footer section ends -->
-
-
-<!-- custom js file link  -->
-<script src="js/script.js"></script>
+    `).join('');
+  </script>
 
 </body>
 </html>
