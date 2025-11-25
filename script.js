@@ -17,7 +17,7 @@ const requireAuth = document.body && document.body.dataset.requireAuth === "true
 if (requireAuth) {
   // só faz essa checagem em páginas que explicitamente exigem autenticação
   auth.onAuthStateChanged(user => { 
-    if (!user) location.href = 'index.html';
+    if (!user) location.href = 'login.html';
   });
 }
 
