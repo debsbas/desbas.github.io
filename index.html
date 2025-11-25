@@ -3,43 +3,71 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WAPED — Login</title>
+  <title>WAPED — Página Inicial</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="page-center">
-  <div class="card auth-card">
-    <img src="/mnt/data/Captura de tela de 2025-11-24 15-19-43.png" alt="WAPED" class="logo">
-    <h1>WAPED Imobiliária</h1>
-    <p class="lead">Painel do corretor — acesse sua conta</p>
+<body>
+  <header class="header">
+    <div class="logo-area">
+      <img src="/mnt/data/Captura de tela de 2025-11-24 15-19-43.png" class="logo" />
+      <h2>WAPED Imóveis</h2>
+    </div>
+    <nav>
+      <a href="login.html" class="btn-login">Sou Corretor</a>
+    </nav>
+  </header>
 
-    <form id="loginForm" class="form">
-      <label>Email</label>
-      <input id="loginEmail" type="email" required placeholder="seu@exemplo.com">
-      <label>Senha</label>
-      <input id="loginPass" type="password" required placeholder="******">
-      <button class="btn primary" type="submit">Entrar</button>
-    </form>
+  <section class="hero">
+    <h1>Amplie suas possibilidades</h1>
+    <div class="search-box">
+      <input type="text" placeholder="Código, bairro ou empreendimento" />
+      <select>
+        <option>Tipo de imóvel</option>
+        <option>Casa</option>
+        <option>Apartamento</option>
+        <option>Lote</option>
+      </select>
+      <select>
+        <option>Valor do imóvel</option>
+        <option>Até 150 mil</option>
+        <option>150 mil a 300 mil</option>
+        <option>300 mil a 600 mil</option>
+      </select>
+      <button class="btn-search">🔍</button>
+    </div>
+  </section>
 
-    <div class="muted">Teste: qualquer e-mail e senha funcionam.</div>
-  </div>
+  <section class="categorias">
+    <div class="cat-card">🏡 Prontos</div>
+    <div class="cat-card">📌 Na Planta</div>
+    <div class="cat-card">🏙️ Apartamentos</div>
+    <div class="cat-card">🏘️ Condomínios</div>
+    <div class="cat-card">📍 Loteamentos</div>
+  </section>
 
-  <script src="script.js"></script>
-  <script>
-    // login simples: qualquer e-mail/senha entra
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('loginEmail').value.trim();
-      const pass = document.getElementById('loginPass').value.trim();
-      if (!email || !pass) return alert('Informe email e senha');
-      // guarda usuário em sessionStorage
-      sessionStorage.setItem('waped_user', JSON.stringify({ email }));
-      window.location.href = 'dashboard.html';
-    });
+  <section class="carrossel">
+    <h2>Imóveis em destaque</h2>
+    <div class="carrossel-container">
+      <div class="imovel-card">
+        <img src="https://picsum.photos/400/300?1" />
+        <h3>Residencial Bela Vista</h3>
+        <p>85m² • 2 quartos • Setor Bueno</p>
+      </div>
+      <div class="imovel-card">
+        <img src="https://picsum.photos/400/300?2" />
+        <h3>Condomínio Alto do Vale</h3>
+        <p>120m² • 3 suítes • Goiânia</p>
+      </div>
+      <div class="imovel-card">
+        <img src="https://picsum.photos/400/300?3" />
+        <h3>Apartamento Vista Mar</h3>
+        <p>95m² • 2 quartos • Jardim Goiás</p>
+      </div>
+    </div>
+  </section>
 
-    // se já está logado, redireciona direto
-    if (sessionStorage.getItem('waped_user')) {
-      window.location.href = 'dashboard.html';
-    }
-  </script>
+  <footer>
+    <p>© 2025 WAPED — Todos os direitos reservados.</p>
+  </footer>
 </body>
 </html>
