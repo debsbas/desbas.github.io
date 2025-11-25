@@ -46,20 +46,26 @@
     <button id="googleLogin">Entrar com Google</button>
   </div>
 
+  <!-- Firebase -->
   <script type="module">
+
+    /* 🔥 IMPORTS DO FIREBASE */
     import { auth, provider } from './firebase.js';
     import { signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
+    /* 🔥 LOGIN COM GOOGLE */
     document.getElementById("googleLogin").addEventListener("click", async () => {
       try {
+
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
 
-        // salva dados básicos
+        // salva dados do corretor
         sessionStorage.setItem("waped_user", JSON.stringify({
           uid: user.uid,
           email: user.email,
-          name: user.displayName
+          name: user.displayName,
+          photo: user.photoURL
         }));
 
         // redireciona para o painel
@@ -70,6 +76,7 @@
         alert("Erro ao fazer login: " + err.message);
       }
     });
+
   </script>
 
 </body>
