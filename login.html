@@ -49,33 +49,40 @@
   <!-- Firebase -->
   <script type="module">
 
-    /* 🔥 IMPORTS DO FIREBASE */
+    /* IMPORTS DO FIREBASE */
     import { auth, provider } from './firebase.js';
-    import { signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import {
+      signInWithRedirect,
+      getRedirectResult
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-    /* 🔥 LOGIN COM GOOGLE */
+    /* LOGIN COM REDIRECT (funciona no GitHub Pages) */
     document.getElementById("googleLogin").addEventListener("click", async () => {
-      try {
-
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-
-        // salva dados do corretor
-        sessionStorage.setItem("waped_user", JSON.stringify({
-          uid: user.uid,
-          email: user.email,
-          name: user.displayName,
-          photo: user.photoURL
-        }));
-
-        // redireciona para o painel
-        window.location.href = "dashboard.html";
-
-      } catch (err) {
-        console.error(err);
-        alert("Erro ao fazer login: " + err.message);
-      }
+      await signInWithRedirect(auth, provider);
     });
+
+    /* APÓS O RETORNO DO GOOGLE */
+    getRedirectResult(auth)
+      .then(result => {
+        if (result && result.user) {
+          const user = result.user;
+
+          // salva dados do corretor
+          sessionStorage.setItem("waped_user", JSON.stringify({
+            uid: user.uid,
+            email: user.email,
+            name: user.displayName,
+            photo: user.photoURL
+          }));
+
+          // redireciona para o painel
+          window.location.href = "dashboard.html";
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Erro ao entrar: " + err.message);
+      });
 
   </script>
 
