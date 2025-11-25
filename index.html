@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WAPED — Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-center">
+  <div class="card auth-card">
+    <img src="/mnt/data/Captura de tela de 2025-11-24 15-19-43.png" alt="WAPED" class="logo">
+    <h1>WAPED Imobiliária</h1>
+    <p class="lead">Painel do corretor — acesse sua conta</p>
+
+    <form id="loginForm" class="form">
+      <label>Email</label>
+      <input id="loginEmail" type="email" required placeholder="seu@exemplo.com">
+      <label>Senha</label>
+      <input id="loginPass" type="password" required placeholder="******">
+      <button class="btn primary" type="submit">Entrar</button>
+    </form>
+
+    <div class="muted">Teste: qualquer e-mail e senha funcionam.</div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // login simples: qualquer e-mail/senha entra
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPass').value.trim();
+      if (!email || !pass) return alert('Informe email e senha');
+      // guarda usuário em sessionStorage
+      sessionStorage.setItem('waped_user', JSON.stringify({ email }));
+      window.location.href = 'dashboard.html';
+    });
+
+    // se já está logado, redireciona direto
+    if (sessionStorage.getItem('waped_user')) {
+      window.location.href = 'dashboard.html';
+    }
+  </script>
+</body>
+</html>
