@@ -8,13 +8,15 @@ const firebaseConfig = {
   apiKey: "AIzaSyAMZ2r15ablc4LTDzNindBJCFipNdg3vcs",
   authDomain: "waped-imobiliaria.firebaseapp.com",
   projectId: "waped-imobiliaria",
-  storageBucket: "waped-imobiliaria.firebasestorage.app",
+  storageBucket: "waped-imobiliaria.appspot.com",   // ✔ CORRIGIDO
   messagingSenderId: "99875066360",
   appId: "1:99875066360:web:e10681e5d9bb8bc977860d"
 };
 
 const app = initializeApp(firebaseConfig);
+
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
