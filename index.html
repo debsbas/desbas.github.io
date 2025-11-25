@@ -1,106 +1,234 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WAPED Imobiliária</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary:#2563eb;
+      --dark:#0f172a;
+      --light:#f8fafc;
+      --muted:#6b7280;
+      --radius:14px;
+      --shadow:0 6px 24px rgba(0,0,0,.08);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+    body{background:#ffffff;color:var(--dark);}    
+
+    /* HEADER */
+    header{
+      width:100%;
+      background:#fff;
+      box-shadow:0 2px 20px rgba(0,0,0,.05);
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+    .header-container{
+      max-width:1200px;
+      margin:auto;
+      padding:18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand{
+      font-size:1.4rem;
+      font-weight:700;
+      color:var(--primary);
+      letter-spacing:-0.5px;
+    }
+    nav a{
+      margin-left:24px;
+      text-decoration:none;
+      color:var(--dark);
+      font-weight:500;
+      transition:.2s;
+    }
+    nav a:hover{color:var(--primary);}
+
+    .cta{
+      background:var(--primary);
+      padding:10px 18px;
+      border-radius:var(--radius);
+      color:white !important;
+      font-weight:600;
+    }
+
+    /* HERO */
+    .hero{
+      max-width:1200px;
+      margin:50px auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:40px;
+      padding:20px;
+    }
+    .hero h1{
+      font-size:2.5rem;
+      font-weight:800;
+      margin-bottom:12px;
+    }
+    .hero p{color:var(--muted);margin-bottom:20px;}
+
+    .search-row{
+      display:flex;
+      gap:10px;
+      margin-top:18px;
+    }
+    .search-row input,
+    .search-row select{
+      flex:1;
+      padding:12px;
+      border-radius:var(--radius);
+      border:1px solid #d1d5db;
+    }
+    .btn{
+      padding:12px 20px;
+      border:none;
+      cursor:pointer;
+      border-radius:var(--radius);
+      background:var(--dark);
+      color:white;
+      font-weight:600;
+      transition:.2s;
+    }
+    .btn:hover{opacity:.85;}
+    .btn.primary{background:var(--primary);}    
+
+    .hero img{
+      width:100%;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    /* GRID IMÓVEIS */
+    .cards{
+      max-width:1200px;
+      margin:40px auto;
+      padding:20px;
+    }
+    .grid{
+      margin-top:20px;
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+      gap:26px;
+    }
+    .card{
+      background:white;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      transition:.3s;
+    }
+    .card:hover{transform:translateY(-4px);}    
+    .card img{width:100%;height:190px;object-fit:cover;}
+    .card-body{padding:16px;}
+    .title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+    .meta{color:var(--muted);font-size:.9rem;margin-bottom:8px;}
+    .price{font-weight:700;color:var(--primary);}    
+
+    /* CLIENTE AREA */
+    .cliente-box{
+      background:#f1f5f9;
+      padding:30px;
+      border-radius:var(--radius);
+      margin-top:50px;
+    }
+
+    /* FOOTER */
+    footer{
+      text-align:center;
+      padding:25px;
+      margin-top:40px;
+      font-size:.9rem;
+      background:#f8fafc;
+      color:var(--muted);
+    }
+  </style>
 </head>
 <body>
 
-  <!-- TOPO -->
-  <header class="topbar">
-    <div class="container">
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
       <div class="brand">WAPED Imobiliária</div>
       <nav>
         <a href="#imoveis">Imóveis</a>
-        <a href="#clientes">Área do Cliente</a>
-        <a class="cta" href="login.html" id="btnCorretor">Sou Corretor</a>
+        <a href="#cliente">Área do Cliente</a>
+        <a class="cta" href="./login.html">Sou Corretor</a>
       </nav>
     </div>
   </header>
 
-  <!-- BANNER -->
-  <section class="banner">
-    <div class="container hero">
-      <div class="hero-left">
-        <h1>Encontre o imóvel ideal com a WAPED</h1>
-        <p>Imóveis selecionados, atendimento humanizado e o melhor da cidade.</p>
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <h1>Encontre o imóvel perfeito</h1>
+      <p>Sua nova casa está aqui. Explore os melhores imóveis da cidade com facilidade.</p>
 
-        <div class="search-row">
-          <input id="searchQ" placeholder="Cidade, bairro ou código">
-          <select id="searchTipo">
-            <option value="">Todos os tipos</option>
-            <option>Apartamento</option>
-            <option>Casa</option>
-            <option>Terreno</option>
-            <option>Comercial</option>
-          </select>
-          <button class="btn primary" id="btnBuscar">Buscar</button>
-        </div>
+      <div class="search-row">
+        <input id="searchQ" placeholder="Cidade, bairro ou código">
+        <select id="searchTipo">
+          <option value="">Tipo</option>
+          <option>Apartamento</option>
+          <option>Casa</option>
+          <option>Terreno</option>
+        </select>
+        <button class="btn primary" id="btnBuscar">Buscar</button>
       </div>
+    </div>
 
-      <div class="hero-right">
-        <img src="https://picsum.photos/640/420?landscape" alt="banner" style="width:100%;border-radius:12px;box-shadow:var(--card-shadow)">
-      </div>
+    <div>
+      <img src="https://picsum.photos/640/420?random" alt="Banner">
     </div>
   </section>
 
   <!-- IMÓVEIS EM DESTAQUE -->
-  <main class="container cards">
+  <main class="cards">
     <h2 id="imoveis">Imóveis em Destaque</h2>
     <div id="destaque" class="grid"></div>
 
-    <section style="margin-top:24px" id="clientes">
+    <section id="cliente" class="cliente-box">
       <h2>Área do Cliente</h2>
-      <p style="color:var(--muted)">Acompanhe contratos, boletos e atendimento.</p>
-      <button class="btn primary" onclick="location.href='cliente.html'">Acessar Área do Cliente</button>
+      <p style="color:var(--muted)">Acompanhe contratos, boletos e atendimento personalizado.</p>
+      <button class="btn primary" onclick="location.href='cliente.html'">Acessar Área</button>
     </section>
   </main>
 
-  <footer class="footer">
-    © <span id="ano"></span> WAPED Imobiliária • Contato: (xx) xxxx-xxxx
+  <footer>
+    © <span id="ano"></span> WAPED Imobiliária — Todos os direitos reservados.
   </footer>
 
+
+  <!-- SCRIPT PARA CARDS -->
   <script>
     document.getElementById('ano').innerText = new Date().getFullYear();
 
-    // produtos de exemplo
-    const destaqueEl = document.getElementById('destaque');
-
-    const demo = [
-      { id:'D001', titulo:'Apartamento Moderno', cidade:'Goiânia', tipo:'Apartamento', valor:350000, foto:'https://picsum.photos/520/320?1' },
-      { id:'D002', titulo:'Casa em Condomínio', cidade:'Goiânia', tipo:'Casa', valor:650000, foto:'https://picsum.photos/520/320?2' },
-      { id:'D003', titulo:'Terreno Plano', cidade:'Goiânia', tipo:'Terreno', valor:180000, foto:'https://picsum.photos/520/320?3' }
+    const destaque = [
+      {titulo:'Apto Moderno', cidade:'Goiânia', tipo:'Apartamento', valor:350000, foto:'https://picsum.photos/400/300?1'},
+      {titulo:'Casa em Condomínio', cidade:'Goiânia', tipo:'Casa', valor:650000, foto:'https://picsum.photos/400/300?2'},
+      {titulo:'Terreno Plano', cidade:'Goiânia', tipo:'Terreno', valor:180000, foto:'httpsum.photos/400/300?3'}
     ];
 
-    function renderDestaque(arr){
-      destaqueEl.innerHTML = arr.map(i=>`
-        <article class="card">
-          <img src="${i.foto}">
-          <div class="card-body">
-            <div class="title">${i.titulo}</div>
-            <div class="meta">${i.cidade} • ${i.tipo}</div>
-            <div class="price">R$ ${i.valor.toLocaleString()}</div>
-            <div style="margin-top:8px"><a class="btn" href="imoveis.html">Ver imóveis</a></div>
-          </div>
-        </article>
-      `).join('');
-    }
-
-    renderDestaque(demo);
-
-    // BUSCA → envia para imoveis.html?q=...
-    document.getElementById('btnBuscar').addEventListener('click', ()=>{
-      const q = document.getElementById('searchQ').value.trim();
-      const tipo = document.getElementById('searchTipo').value;
-
-      const params = new URLSearchParams();
-      if(q) params.set('q', q);
-      if(tipo) params.set('tipo', tipo);
-
-      location.href = 'imoveis.html?' + params.toString();
-    });
+    const grid = document.getElementById('destaque');
+    grid.innerHTML = destaque.map(i=>`
+      <div class="card">
+        <img src="${i.foto}">
+        <div class="card-body">
+          <div class="title">${i.titulo}</div>
+          <div class="meta">${i.cidade} • ${i.tipo}</div>
+          <div class="price">R$ ${i.valor.toLocaleString()}</div>
+          <div style="margin-top:10px"><a class="btn" href="imoveis.html">Ver mais</a></div>
+        </div>
+      </div>
+    `).join('');
   </script>
 
 </body>
