@@ -7,17 +7,20 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- TOPO -->
   <header class="topbar">
     <div class="container">
       <div class="brand">WAPED Imobiliária</div>
       <nav>
         <a href="#imoveis">Imóveis</a>
         <a href="#clientes">Área do Cliente</a>
-        <a class="cta" href="#" id="btnCorretor">Sou Corretor</a>
+        <a class="cta" href="login.html" id="btnCorretor">Sou Corretor</a>
       </nav>
     </div>
   </header>
 
+  <!-- BANNER -->
   <section class="banner">
     <div class="container hero">
       <div class="hero-left">
@@ -43,6 +46,7 @@
     </div>
   </section>
 
+  <!-- IMÓVEIS EM DESTAQUE -->
   <main class="container cards">
     <h2 id="imoveis">Imóveis em Destaque</h2>
     <div id="destaque" class="grid"></div>
@@ -58,49 +62,18 @@
     © <span id="ano"></span> WAPED Imobiliária • Contato: (xx) xxxx-xxxx
   </footer>
 
-  <!-- LOGIN CORRETOR (modal) -->
-  <div id="loginModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <h3>Login do Corretor</h3>
-      <p style="color:var(--muted)">Entre com sua conta Google</p>
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button id="googleSign" class="btn primary" style="flex:1">Entrar com Google</button>
-        <button id="fecharModal" class="btn" style="flex:1">Fechar</button>
-      </div>
-    </div>
-  </div>
-
-  <script type="module">
-    import { auth, provider } from './firebase.js';
-    import { signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-
-    // populate year
+  <script>
     document.getElementById('ano').innerText = new Date().getFullYear();
 
-    // modal controls
-    document.getElementById('btnCorretor').addEventListener('click', ()=> document.getElementById('loginModal').style.display = 'flex');
-    document.getElementById('fecharModal').addEventListener('click', ()=> document.getElementById('loginModal').style.display = 'none');
-
-    // Google login
-    document.getElementById('googleSign').addEventListener('click', async ()=>{
-      try{
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        sessionStorage.setItem('waped_user', JSON.stringify({ email: user.email, uid: user.uid, name: user.displayName }));
-        window.location.href = 'dashboard.html';
-      }catch(err){
-        console.error(err);
-        alert('Erro no login: ' + err.message);
-      }
-    });
-
-    // demo destaque (substitui por dados reais quando houver)
+    // produtos de exemplo
     const destaqueEl = document.getElementById('destaque');
+
     const demo = [
       { id:'D001', titulo:'Apartamento Moderno', cidade:'Goiânia', tipo:'Apartamento', valor:350000, foto:'https://picsum.photos/520/320?1' },
       { id:'D002', titulo:'Casa em Condomínio', cidade:'Goiânia', tipo:'Casa', valor:650000, foto:'https://picsum.photos/520/320?2' },
       { id:'D003', titulo:'Terreno Plano', cidade:'Goiânia', tipo:'Terreno', valor:180000, foto:'https://picsum.photos/520/320?3' }
     ];
+
     function renderDestaque(arr){
       destaqueEl.innerHTML = arr.map(i=>`
         <article class="card">
@@ -114,18 +87,21 @@
         </article>
       `).join('');
     }
+
     renderDestaque(demo);
 
-    // quick search nav -> redirect to imoveis with query (simple)
+    // BUSCA → envia para imoveis.html?q=...
     document.getElementById('btnBuscar').addEventListener('click', ()=>{
       const q = document.getElementById('searchQ').value.trim();
       const tipo = document.getElementById('searchTipo').value;
-      // pass params via URL
+
       const params = new URLSearchParams();
       if(q) params.set('q', q);
       if(tipo) params.set('tipo', tipo);
+
       location.href = 'imoveis.html?' + params.toString();
     });
   </script>
+
 </body>
 </html>
