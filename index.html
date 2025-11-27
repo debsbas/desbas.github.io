@@ -2,41 +2,28 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WAPED Imobiliária — Início</title>
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
-
-  <!-- Ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="header">
-
-  <!-- Linha 1 -->
   <nav class="navbar nav-1">
     <div class="flex">
-      <a href="index.html" class="logo">
-        <i class="fas fa-house"></i> WAPED
-      </a>
-
+      <a href="#" class="logo"><i class="fas fa-house"></i> WAPED</a>
       <ul>
         <li><a href="login.html">Sou Corretor <i class="fas fa-user-tie"></i></a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- Linha 2 -->
   <nav class="navbar nav-2">
     <div class="flex">
       <ul>
         <li><a href="index.html">Início</a></li>
         <li><a href="imoveis.html">Imóveis</a></li>
-
         <li>
           <a href="#">Ajuda <i class="fas fa-angle-down"></i></a>
           <ul>
@@ -44,65 +31,151 @@
             <li><a href="contato.html">Contato</a></li>
           </ul>
         </li>
-
       </ul>
     </div>
   </nav>
-
 </header>
 
-<!-- BANNER -->
 <section class="banner">
-  <img src="https://picsum.photos/2000/800?random=44" alt="">
+  <img src="https://picsum.photos/1920/800?gold" alt="">
   <div class="content">
     <h3>Encontre o imóvel perfeito</h3>
-    <p>Casas, terrenos, salas comerciais, apartamentos e muito mais.</p>
+    <p>Casas, apartamentos, salas e muito mais — tudo em um só lugar.</p>
+  </div>
+</section>
+
+<!-- FILTROS -->
+<section class="filter-section">
+  <div class="filter-container">
+
+    <select id="tipo-filter">
+      <option value="">Tipo de Imóvel</option>
+      <option>Apartamento</option>
+      <option>Apartamento Duplex</option>
+      <option>Área/Terreno</option>
+      <option>Casa de Rua</option>
+      <option>Casa em Condomínio</option>
+      <option>Chácara</option>
+      <option>Cobertura</option>
+      <option>Fazenda</option>
+      <option>Flat</option>
+      <option>Galpão/Depósito</option>
+      <option>Imóvel Comercial</option>
+      <option>Kitnet</option>
+      <option>Lote</option>
+      <option>Loteamento Aberto</option>
+      <option>Penthouse</option>
+      <option>Prédio Comercial</option>
+      <option>Sala Comercial</option>
+      <option>Sobrado</option>
+      <option>Studio</option>
+    </select>
+
+    <select id="valor-filter">
+      <option value="">Preço do Imóvel</option>
+      <option>Abaixo de 200 mil</option>
+      <option>200 mil a 400 mil</option>
+      <option>400 mil a 600 mil</option>
+      <option>600 mil a 800 mil</option>
+      <option>800 mil a 1 milhão</option>
+      <option>1 milhão a 2 milhões</option>
+      <option>2 milhões a 3 milhões</option>
+      <option>3 milhões a 4 milhões</option>
+      <option>4 milhões ou mais</option>
+    </select>
+
+    <select id="cidade-filter">
+      <option value="">Cidade / Região</option>
+      <option>Goiânia</option>
+      <option>Aparecida de Goiânia</option>
+      <option>Goianira</option>
+      <option>Itumbiara</option>
+      <option>Trindade</option>
+      <option>Senador Canedo</option>
+      <option>Região Metropolitana</option>
+    </select>
+
+    <select id="status-filter">
+      <option value="">Status do Imóvel</option>
+      <option>Na Planta</option>
+      <option>Pronto</option>
+      <option>Loteamento</option>
+      <option>Condomínio</option>
+      <option>Apartamento</option>
+    </select>
+
+    <button id="btn-filtrar" class="btn">Buscar</button>
   </div>
 </section>
 
 <!-- LISTAGEM -->
 <section class="listings">
   <h2 class="heading">Imóveis Disponíveis</h2>
-
-  <div id="imoveis-container" class="box-container">
-    <!-- Carregados via Firebase ou exemplo -->
-  </div>
+  <div id="imoveis-container" class="box-container"></div>
 </section>
 
-<footer class="footer">
-  © 2025 WAPED Imobiliária — Todos os direitos reservados.
-</footer>
+<footer class="footer">© 2025 WAPED Imobiliária — Todos os direitos reservados.</footer>
 
 <script>
-  // TESTE DE EXEMPLO (REMOVA QUANDO USAR FIREBASE)
-  const exemplo = [
-    {titulo:'Apto Moderno', endereco:'Goiânia', tipo:'Apartamento', finalidade:'Venda', quartos:2, banheiros:2, area:80, foto:'https://picsum.photos/600/400?1'},
-    {titulo:'Casa Térrea', endereco:'Aparecida', tipo:'Casa', finalidade:'Venda', quartos:3, banheiros:2, area:140, foto:'https://picsum.photos/600/400?2'},
-    {titulo:'Sala Comercial', endereco:'Setor Bueno', tipo:'Comercial', finalidade:'Aluguel', quartos:0, banheiros:1, area:45, foto:'https://picsum.photos/600/400?3'},
-    {titulo:'Terreno 360m²', endereco:'Trindade', tipo:'Terreno', finalidade:'Venda', quartos:0, banheiros:0, area:360, foto:'https://picsum.photos/600/400?4'}
-  ];
+// Exemplo de mock (depois substitui pelo Firebase)
+const exemplo = [
+  {titulo:'Apto Moderno', tipo:'Apartamento', cidade:'Goiânia', preco:350000, status:'Pronto', endereco:'Setor Bueno', quartos:2, banheiros:2, area:80, foto:'https://picsum.photos/600/400?1'},
+  {titulo:'Casa Grande', tipo:'Casa de Rua', cidade:'Aparecida de Goiânia', preco:750000, status:'Pronto', endereco:'Jardim Riviera', quartos:3, banheiros:2, area:150, foto:'https://picsum.photos/600/400?2'},
+  {titulo:'Terreno 360m²', tipo:'Área/Terreno', cidade:'Trindade', preco:180000, status:'Loteamento', endereco:'Centro', quartos:0, banheiros:0, area:360, foto:'https://picsum.photos/600/400?3'},
+];
 
+function render(lista){
   const cont = document.getElementById('imoveis-container');
-  cont.innerHTML = exemplo.map(i=>`
-    <div class="box">
+  cont.innerHTML = lista.map(i=>`
+    <a class="box" href="view_property.html?imovel=${i.titulo}">
       <div class="thumb">
         <img src="${i.foto}">
         <p class="total-images"><i class="far fa-image"></i> 1</p>
-        <div class="type"><span>${i.tipo}</span><span>${i.finalidade}</span></div>
+        <div class="type"><span>${i.tipo}</span><span>${i.status}</span></div>
       </div>
-
       <h3 class="name">${i.titulo}</h3>
       <p class="location"><i class="fas fa-map-marker-alt"></i> ${i.endereco}</p>
-
       <div class="flex-row">
         <p><i class="fas fa-bed"></i>${i.quartos}</p>
         <p><i class="fas fa-bath"></i>${i.banheiros}</p>
         <p><i class="fas fa-maximize"></i>${i.area} m²</p>
       </div>
+      <p class="price">R$ ${i.preco.toLocaleString()}</p>
+    </a>
+  `).join('');
+}
 
-      <a class="btn" href="#">Ver detalhes</a>
-    </div>
-  `).join("");
+render(exemplo);
+
+// FILTRAR
+const btn = document.getElementById('btn-filtrar');
+btn.addEventListener('click', ()=>{
+
+  const t = document.getElementById('tipo-filter').value;
+  const v = document.getElementById('valor-filter').value;
+  const c = document.getElementById('cidade-filter').value;
+  const s = document.getElementById('status-filter').value;
+
+  let filtrado = exemplo;
+
+  if (t) filtrado = filtrado.filter(i=>i.tipo === t);
+  if (c) filtrado = filtrado.filter(i=>i.cidade === c);
+  if (s) filtrado = filtrado.filter(i=>i.status === s);
+  if (v){
+    const preco = i => i.preco;
+    if (v.includes('Abaixo')) filtrado = filtrado.filter(i => preco(i) < 200000);
+    if (v.includes('200 mil a 400 mil')) filtrado = filtrado.filter(i => preco(i)>=200000 && preco(i)<=400000);
+    if (v.includes('400 mil a 600 mil')) filtrado = filtrado.filter(i => preco(i)>=400000 && preco(i)<=600000);
+    if (v.includes('600 mil a 800 mil')) filtrado = filtrado.filter(i => preco(i)>=600000 && preco(i)<=800000);
+    if (v.includes('800 mil a 1 milhão')) filtrado = filtrado.filter(i => preco(i)>=800000 && preco(i)<=1000000);
+    if (v.includes('1 milhão a 2 milhões')) filtrado = filtrado.filter(i => preco(i)>=1000000 && preco(i)<=2000000);
+    if (v.includes('2 milhões a 3 milhões')) filtrado = filtrado.filter(i => preco(i)>=2000000 && preco(i)<=3000000);
+    if (v.includes('3 milhões a 4 milhões')) filtrado = filtrado.filter(i => preco(i)>=3000000 && preco(i)<=4000000);
+    if (v.includes('4 milhões ou mais')) filtrado = filtrado.filter(i => preco(i)>=4000000);
+  }
+
+  render(filtrado);
+});
 </script>
 
 </body>
