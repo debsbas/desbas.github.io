@@ -1,5 +1,5 @@
 /* ---------------------------------------
-   WAPED IMOBILIÁRIA — TEMA DOURADO PREMIUM
+   WAPED IMOBILIÁRIA — MENU EM CAIXINHAS
 ---------------------------------------- */
 
 :root{
@@ -8,10 +8,10 @@
   --dark:#1a1a1a;
   --muted:#777;
   --bg:#ffffff;
-  --border:#ececec;
+  --border:#e5e5e5;
+  --shadow:0 4px 16px rgba(0,0,0,0.08);
   --radius:14px;
-  --shadow:0 6px 22px rgba(0,0,0,0.08);
-  --transition:.2s;
+  --transition:.25s;
 }
 
 *{
@@ -24,28 +24,28 @@
 body{
   background:var(--bg);
   color:var(--dark);
-  line-height:1.55;
 }
 
 /* HEADER */
 .header{
   position:sticky;
   top:0;
-  background:white;
   z-index:999;
+  background:white;
   box-shadow:var(--shadow);
 }
 
+/* NAV SUPERIOR */
 .navbar{
-  padding:14px 22px;
+  padding:12px 22px;
 }
 
 .navbar .flex{
   max-width:1300px;
   margin:auto;
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
 }
 
 .logo{
@@ -57,24 +57,31 @@ body{
   gap:8px;
 }
 
+/* MENU EM CAIXINHAS */
 .navbar ul{
   list-style:none;
   display:flex;
   align-items:center;
-  gap:20px;
+  gap:14px;
 }
 
 .navbar ul li a{
-  padding:8px 14px;
-  border-radius:8px;
+  padding:10px 16px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:10px;
   color:var(--dark);
   font-weight:600;
   transition:var(--transition);
+  display:flex;
+  align-items:center;
+  gap:6px;
 }
 
 .navbar ul li a:hover{
   background:var(--gold);
   color:white;
+  border-color:var(--gold);
 }
 
 /* DROPDOWN */
@@ -84,14 +91,17 @@ body{
 
 .navbar ul li ul{
   position:absolute;
-  top:45px;
+  top:50px;
   left:0;
   background:white;
-  min-width:160px;
-  border-radius:8px;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid var(--border);
   box-shadow:var(--shadow);
+  min-width:160px;
   display:none;
   flex-direction:column;
+  gap:8px;
 }
 
 .navbar ul li:hover ul{
@@ -99,22 +109,22 @@ body{
 }
 
 .navbar ul li ul a{
-  padding:10px 16px;
-  border-radius:0;
-  color:var(--dark);
+  background:#fafafa;
+  border-radius:8px;
+  padding:8px 12px;
+  border:1px solid var(--border);
 }
 
 .navbar ul li ul a:hover{
   background:var(--gold);
   color:white;
+  border-color:var(--gold);
 }
 
 /* BANNER */
 .banner{
+  height:340px;
   position:relative;
-  width:100%;
-  height:360px;
-  overflow:hidden;
 }
 
 .banner img{
@@ -129,16 +139,15 @@ body{
   bottom:40px;
   left:40px;
   color:white;
-  max-width:500px;
 }
 
-.banner .content h3{
+.banner h3{
   font-size:2.4rem;
   font-weight:800;
 }
 
-.banner .content p{
-  font-size:1.1rem;
+.banner p{
+  font-size:1rem;
   margin-top:8px;
 }
 
@@ -146,20 +155,20 @@ body{
 .listings{
   max-width:1300px;
   margin:40px auto;
-  padding:0 20px;
+  padding:0 22px;
 }
 
 .heading{
   text-align:center;
+  color:var(--gold);
   font-size:2rem;
   font-weight:800;
-  color:var(--gold);
-  margin-bottom:22px;
+  margin-bottom:20px;
 }
 
 .box-container{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:22px;
 }
 
@@ -185,10 +194,21 @@ body{
   object-fit:cover;
 }
 
+.total-images{
+  position:absolute;
+  top:12px;
+  left:12px;
+  padding:4px 10px;
+  background:rgba(0,0,0,0.5);
+  color:white;
+  border-radius:8px;
+  font-size:13px;
+}
+
 .type{
   position:absolute;
-  left:12px;
   bottom:12px;
+  left:12px;
   display:flex;
   gap:6px;
 }
@@ -201,49 +221,35 @@ body{
   font-size:12px;
 }
 
-.total-images{
-  position:absolute;
-  top:12px;
-  left:12px;
-  background:rgba(0,0,0,0.5);
-  color:white;
-  padding:4px 10px;
-  border-radius:6px;
-  font-size:13px;
-}
-
 .name{
-  font-size:1.2rem;
-  padding:12px 14px 0;
+  padding:12px;
   font-weight:700;
+  font-size:1.2rem;
 }
 
 .location{
-  padding:4px 14px;
+  padding:0 12px;
   color:var(--muted);
 }
 
 .flex-row{
-  padding:10px 14px;
   display:flex;
   justify-content:space-between;
-  font-size:0.95rem;
-  color:#444;
+  padding:10px 12px;
+  color:#555;
 }
 
 .flex-row i{
-  margin-right:6px;
   color:var(--gold);
 }
 
 .btn{
-  margin:12px 14px 16px;
-  display:block;
+  margin:0 12px 14px;
   text-align:center;
   background:var(--gold);
   color:white;
   padding:10px;
-  border-radius:8px;
+  border-radius:10px;
   font-weight:600;
   transition:.2s;
 }
@@ -255,21 +261,9 @@ body{
 /* FOOTER */
 .footer{
   text-align:center;
-  padding:30px;
-  font-size:0.95rem;
-  color:var(--muted);
+  padding:25px;
+  margin-top:40px;
   border-top:1px solid var(--border);
-  margin-top:50px;
-}
-
-/* RESPONSIVO */
-@media(max-width:768px){
-  .banner{
-    height:240px;
-  }
-
-  .banner .content h3{
-    font-size:1.6rem;
-  }
+  color:var(--muted);
 }
 
