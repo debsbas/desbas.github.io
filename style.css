@@ -329,3 +329,16 @@ body{
     font-size:1.6rem;
   }
 }
+
+
+/* FILTERS — atualizado para caixinhas centralizadas, fontes maiores e layout premium */
+.filters-section{background:white;padding:32px;border-radius:16px;box-shadow:var(--card-shadow);margin:20px auto;max-width:1100px}
+.filters-title{text-align:center;font-size:1.8rem;font-weight:700;color:var(--dark);margin-bottom:20px;letter-spacing:0.5px}
+.filters-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:10px}
+.filters-grid .filter-box{background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:18px;box-shadow:0 4px 10px rgba(0,0,0,0.05);transition:.2s}
+.filters-grid .filter-box:hover{transform:translateY(-2px);border-color:var(--gold)}
+.filter-box label{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:6px;display:block}
+.filter-box select,.filter-box input{padding:12px;border-radius:10px;border:1px solid #ddd;font-size:1rem;transition:.2s;font-family:inherit}
+.filter-box select:focus,.filter-box input:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(184,134,11,0.15)}
+.filters-actions{text-align:center;margin-top:20px}
+.filters-actions .btn{padding:12px 22px;font-size:1rem;border-radius:10px}
