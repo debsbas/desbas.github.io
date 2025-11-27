@@ -1,139 +1,108 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <title>WAPED Imobiliária — Início</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>WAPED Imobiliária — Início</title>
 
-   <!-- Ícones e CSS -->
-   <link rel="stylesheet" href="css/style.css">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
 </head>
-
 <body>
 
 <!-- HEADER -->
 <header class="header">
-   <nav class="navbar nav-1">
-      <section class="flex">
-         <a href="index.html" class="logo">
-            <i class="fas fa-house"></i> WAPED
-         </a>
 
-         <ul>
-            <li><a href="login.html">Sou Corretor <i class="fas fa-user-tie"></i></a></li>
-         </ul>
-      </section>
-   </nav>
+  <!-- Linha 1 -->
+  <nav class="navbar nav-1">
+    <div class="flex">
+      <a href="index.html" class="logo">
+        <i class="fas fa-house"></i> WAPED
+      </a>
 
-   <nav class="navbar nav-2">
-      <section class="flex">
-         <div class="menu">
-            <ul>
-               <li><a href="index.html">Início</a></li>
-               <li><a href="imoveis.html">Imóveis</a></li>
-               <li>
-                  <a href="#">Ajuda <i class="fas fa-angle-down"></i></a>
-                  <ul>
-                     <li><a href="#">Sobre</a></li>
-                     <li><a href="#">Contato</a></li>
-                  </ul>
-               </li>
-            </ul>
-         </div>
-      </section>
-   </nav>
+      <ul>
+        <li><a href="login.html">Sou Corretor <i class="fas fa-user-tie"></i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Linha 2 -->
+  <nav class="navbar nav-2">
+    <div class="flex">
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="imoveis.html">Imóveis</a></li>
+
+        <li>
+          <a href="#">Ajuda <i class="fas fa-angle-down"></i></a>
+          <ul>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="contato.html">Contato</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+
 </header>
-<!-- END HEADER -->
 
 <!-- BANNER -->
 <section class="banner">
-   <img src="https://picsum.photos/2000/800?random=1" alt="banner">
-   <div class="content">
-      <h3>Encontre o imóvel perfeito para você</h3>
-      <p>Casas, salas comerciais, terrenos, galpões, tudo em um só lugar.</p>
-   </div>
+  <img src="https://picsum.photos/2000/800?random=44" alt="">
+  <div class="content">
+    <h3>Encontre o imóvel perfeito</h3>
+    <p>Casas, terrenos, salas comerciais, apartamentos e muito mais.</p>
+  </div>
 </section>
 
-<!-- LISTAGEM DE IMÓVEIS -->
+<!-- LISTAGEM -->
 <section class="listings">
-   <h1 class="heading">Imóveis Disponíveis</h1>
+  <h2 class="heading">Imóveis Disponíveis</h2>
 
-   <div id="imoveis-container" class="box-container">
-      <!-- Imóveis serão carregados aqui -->
-   </div>
+  <div id="imoveis-container" class="box-container">
+    <!-- Carregados via Firebase ou exemplo -->
+  </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="footer">
-   © 2025 WAPED Imobiliária — Todos os direitos reservados.
+  © 2025 WAPED Imobiliária — Todos os direitos reservados.
 </footer>
 
-<!-- FIREBASE -->
-<script type="module">
+<script>
+  // TESTE DE EXEMPLO (REMOVA QUANDO USAR FIREBASE)
+  const exemplo = [
+    {titulo:'Apto Moderno', endereco:'Goiânia', tipo:'Apartamento', finalidade:'Venda', quartos:2, banheiros:2, area:80, foto:'https://picsum.photos/600/400?1'},
+    {titulo:'Casa Térrea', endereco:'Aparecida', tipo:'Casa', finalidade:'Venda', quartos:3, banheiros:2, area:140, foto:'https://picsum.photos/600/400?2'},
+    {titulo:'Sala Comercial', endereco:'Setor Bueno', tipo:'Comercial', finalidade:'Aluguel', quartos:0, banheiros:1, area:45, foto:'https://picsum.photos/600/400?3'},
+    {titulo:'Terreno 360m²', endereco:'Trindade', tipo:'Terreno', finalidade:'Venda', quartos:0, banheiros:0, area:360, foto:'https://picsum.photos/600/400?4'}
+  ];
 
-   // FIREBASE IMPORTS
-   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-   import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  const cont = document.getElementById('imoveis-container');
+  cont.innerHTML = exemplo.map(i=>`
+    <div class="box">
+      <div class="thumb">
+        <img src="${i.foto}">
+        <p class="total-images"><i class="far fa-image"></i> 1</p>
+        <div class="type"><span>${i.tipo}</span><span>${i.finalidade}</span></div>
+      </div>
 
-   // CONFIGURAÇÃO DO FIREBASE
-   const firebaseConfig = {
-      apiKey: "SUA_API_KEY",
-      authDomain: "SEU_AUTH_DOMAIN",
-      projectId: "SEU_PROJECT_ID",
-      storageBucket: "SEU_BUCKET",
-      messagingSenderId: "SENDER_ID",
-      appId: "APP_ID"
-   };
+      <h3 class="name">${i.titulo}</h3>
+      <p class="location"><i class="fas fa-map-marker-alt"></i> ${i.endereco}</p>
 
-   const app = initializeApp(firebaseConfig);
-   const db = getFirestore(app);
+      <div class="flex-row">
+        <p><i class="fas fa-bed"></i>${i.quartos}</p>
+        <p><i class="fas fa-bath"></i>${i.banheiros}</p>
+        <p><i class="fas fa-maximize"></i>${i.area} m²</p>
+      </div>
 
-   // CARREGAR IMÓVEIS
-   async function carregarImoveis() {
-      const container = document.getElementById("imoveis-container");
-      container.innerHTML = "<p>Carregando imóveis...</p>";
-
-      const querySnapshot = await getDocs(collection(db, "imoveis"));
-
-      container.innerHTML = "";
-
-      querySnapshot.forEach((doc) => {
-         const i = doc.data();
-
-         container.innerHTML += `
-         <div class="box">
-            <div class="thumb">
-               <p class="total-images"><i class="far fa-image"></i><span>1</span></p>
-
-               <p class="type">
-                  <span>${i.tipo || "Imóvel"}</span>
-                  <span>${i.finalidade || "Venda"}</span>
-               </p>
-
-               <img src="${i.foto || `https://picsum.photos/600/400?random=${Math.random()}`}" alt="imagem">
-            </div>
-
-            <h3 class="name">${i.titulo || "Título não informado"}</h3>
-
-            <p class="location">
-               <i class="fas fa-map-marker-alt"></i>
-               <span>${i.endereco || "Endereço não informado"}</span>
-            </p>
-
-            <div class="flex">
-               <p><i class="fas fa-bed"></i> <span>${i.quartos || 0}</span></p>
-               <p><i class="fas fa-bath"></i> <span>${i.banheiros || 0}</span></p>
-               <p><i class="fas fa-maximize"></i> <span>${i.area || 0} m²</span></p>
-            </div>
-
-            <a href="view_property.html?id=${doc.id}" class="btn">Ver detalhes</a>
-         </div>`;
-      });
-   }
-
-   carregarImoveis();
-
+      <a class="btn" href="#">Ver detalhes</a>
+    </div>
+  `).join("");
 </script>
 
 </body>
