@@ -1,6 +1,4 @@
-/* ---------------------------------------
-   WAPED IMOBILIÁRIA — MENU EM CAIXINHAS
----------------------------------------- */
+/* STYLE CSS COMPLETO PARA INDEX COM FILTROS – TEMA DOURADO PREMIUM */
 
 :root{
   --gold:#B8860B;
@@ -35,7 +33,6 @@ body{
   box-shadow:var(--shadow);
 }
 
-/* NAV SUPERIOR */
 .navbar{
   padding:12px 22px;
 }
@@ -91,7 +88,7 @@ body{
 
 .navbar ul li ul{
   position:absolute;
-  top:50px;
+  top:52px;
   left:0;
   background:white;
   padding:12px;
@@ -125,6 +122,7 @@ body{
 .banner{
   height:340px;
   position:relative;
+  overflow:hidden;
 }
 
 .banner img{
@@ -149,6 +147,53 @@ body{
 .banner p{
   font-size:1rem;
   margin-top:8px;
+}
+
+/* FILTROS */
+.filter-section{
+  background:white;
+  padding:25px 0;
+  box-shadow:var(--shadow);
+  margin-top:-40px;
+  position:relative;
+  z-index:20;
+}
+
+.filter-container{
+  max-width:1300px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  gap:14px;
+  padding:0 22px;
+}
+
+.filter-container select{
+  padding:12px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  font-size:0.95rem;
+  background:white;
+  transition:var(--transition);
+}
+
+.filter-container select:hover{
+  border-color:var(--gold);
+}
+
+.filter-container .btn{
+  background:var(--gold);
+  border:0;
+  color:white;
+  font-weight:700;
+  padding:12px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:var(--transition);
+}
+
+.filter-container .btn:hover{
+  background:var(--gold-dark);
 }
 
 /* LISTAGEM */
@@ -243,6 +288,13 @@ body{
   color:var(--gold);
 }
 
+.price{
+  padding:0 12px 12px;
+  font-weight:800;
+  font-size:1.1rem;
+  color:var(--gold-dark);
+}
+
 .btn{
   margin:0 12px 14px;
   text-align:center;
@@ -267,3 +319,13 @@ body{
   color:var(--muted);
 }
 
+/* RESPONSIVIDADE */
+@media(max-width:768px){
+  .banner{
+    height:240px;
+  }
+
+  .banner h3{
+    font-size:1.6rem;
+  }
+}
