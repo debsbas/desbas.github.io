@@ -1,88 +1,90 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WAPED Imobiliária - Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel do Corretor - WAPED</title>
+
+<link rel="stylesheet" href="style.css">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+
+  .painel {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 40px;
+    border-radius: 14px;
+    background: #fffefe;
+    box-shadow: 0px 4px 14px rgba(0,0,0,0.1);
+    border: 3px solid #d4af37;
+    text-align: center;
+  }
+
+  h1 {
+    color: #d4af37;
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    color: #555;
+    font-size: 20px;
+    margin-bottom: 40px;
+  }
+
+  .btns {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .btns button {
+    padding: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background: #d4af37;
+    color: #fff;
+    transition: 0.3s;
+  }
+
+  .btns button:hover {
+    background: #b4902c;
+  }
+</style>
+
+<script type="module">
+import { auth, onAuthStateChanged } from "./firebase.js";
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html"; 
+  }
+});
+</script>
+
 </head>
 <body>
-  <header class="topbar">
-    <div class="container">
-      <div class="brand">WAPED Imobiliária</div>
-      <nav>
-        <a href="cadastro.html">Cadastrar Imóvel</a>
-        <a href="imoveis.html">Ver Imóveis</a>
-        <a id="logout" href="#">Sair</a>
-      </nav>
-    </div>
-  </header>
 
-  <main class="container page-content">
-    <h2>Dashboard</h2>
-    <div id="list" class="grid-list"></div>
-  </main>
+<div class="painel">
+  <h1>Bem-vindo, Corretor!</h1>
+  <h3>Escolha uma das opções abaixo</h3>
 
-  <script>
-    // proteção de acesso
-    const user = sessionStorage.getItem('waped_user');
-    if (!user) location.href = 'index.html';
+  <div class="btns">
+    <button onclick="window.location.href='cadastro-imovel.html'">Cadastrar Novo Imóvel</button>
 
-    document.getElementById('logout').addEventListener('click', e=>{
-      e.preventDefault();
-      sessionStorage.removeItem('waped_user');
-      location.href='index.html';
-    });
+    <button onclick="window.location.href='listar-imoveis.html'">Atualizar / Editar Imóveis</button>
 
-    // imóveis de exemplo
-    const imoveisExemplo = [
-      {
-        id: "IMV000",
-        titulo: "Apartamento Moderno",
-        tipo: "Apartamento",
-        cidade: "Goiânia",
-        valor: 350000,
-        descricao: "Apartamento com 2 quartos, 1 suíte, varanda e garagem.",
-        fotos: ["https://picsum.photos/400/300?random=1"]
-      },
-      {
-        id: "IMV001",
-        titulo: "Casa em Condomínio",
-        tipo: "Casa em Condomínio",
-        cidade: "Goiânia",
-        valor: 650000,
-        descricao: "Casa ampla com 3 quartos, piscina e churrasqueira.",
-        fotos: ["https://picsum.photos/400/300?random=2"]
-      },
-      {
-        id: "IMV002",
-        titulo: "Terreno Urbano",
-        tipo: "Terreno",
-        cidade: "Goiânia",
-        valor: 180000,
-        descricao: "Terreno plano, pronto para construir, ótima localização.",
-        fotos: ["https://picsum.photos/400/300?random=3"]
-      }
-    ];
+    <button onclick="window.location.href='perfil-corretor.html'">Editar Meu Perfil</button>
+  </div>
+</div>
 
-    function renderImoveis(items){
-      const container = document.getElementById("list");
-      container.innerHTML = items.map(i => `
-        <article class="item-card">
-          <img src="${i.fotos[0]}" style="width:100%;border-radius:8px;margin-bottom:8px">
-          <div class="item-head">
-            <div class="item-code">${i.id}</div>
-            <div><strong>${i.titulo}</strong><div class="muted">${i.cidade} • ${i.tipo}</div></div>
-          </div>
-          <div class="item-body">
-            <div class="price">R$ ${i.valor.toLocaleString()}</div>
-            <p>${i.descricao}</p>
-          </div>
-        </article>
-      `).join('');
-    }
-
-    renderImoveis(imoveisExemplo);
-  </script>
 </body>
 </html>
