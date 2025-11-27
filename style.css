@@ -330,7 +330,6 @@ body{
   }
 }
 
-
 /* FILTERS — atualizado para caixinhas centralizadas, fontes maiores e layout premium */
 .filters-section{background:white;padding:32px;border-radius:16px;box-shadow:var(--card-shadow);margin:20px auto;max-width:1100px}
 .filters-title{text-align:center;font-size:1.8rem;font-weight:700;color:var(--dark);margin-bottom:20px;letter-spacing:0.5px}
@@ -342,3 +341,80 @@ body{
 .filter-box select:focus,.filter-box input:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(184,134,11,0.15)}
 .filters-actions{text-align:center;margin-top:20px}
 .filters-actions .btn{padding:12px 22px;font-size:1rem;border-radius:10px}
+
+
+
+/* BUSCA PRINCIPAL — caixinhas grandes, centralizadas e douradas */
+.search-area{
+  max-width:1100px;
+  margin:40px auto;
+  padding:30px;
+  background:white;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  border:2px solid var(--gold);
+}
+.search-area h2{
+  text-align:center;
+  font-size:2.2rem;
+  color:var(--dark);
+  font-weight:800;
+  margin-bottom:25px;
+}
+.search-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+}
+.search-box{
+  background:#fff;
+  border:2px solid var(--gold);
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.06);
+  transition:.2s;
+}
+.search-box:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 28px rgba(0,0,0,0.10);
+}
+.search-box label{
+  font-size:1.3rem;
+  color:var(--dark);
+  font-weight:700;
+  margin-bottom:8px;
+  display:block;
+}
+.search-box select,
+.search-box input{
+  width:100%;
+  padding:14px;
+  font-size:1.2rem;
+  border-radius:12px;
+  border:1px solid #ddd;
+  transition:.2s;
+}
+.search-box select:focus,
+.search-box input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 4px rgba(184,134,11,0.20);
+  outline:none;
+}
+.search-actions{
+  margin-top:30px;
+  text-align:center;
+}
+.search-actions .btn.primary{
+  font-size:1.3rem;
+  padding:16px 32px;
+  border-radius:14px;
+  background:var(--gold);
+  color:white;
+  border:none;
+  font-weight:800;
+  letter-spacing:.5px;
+  box-shadow:0 10px 24px rgba(184,134,11,0.25);
+}
+.search-actions .btn.primary:hover{
+  background:var(--gold-dark);
+  transform:translateY(
